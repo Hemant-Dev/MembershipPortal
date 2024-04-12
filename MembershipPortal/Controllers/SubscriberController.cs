@@ -45,6 +45,27 @@ namespace MembershipPortal.API.Controllers
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<GetSubscriberDTO>>> Search(string search)
+        {
+            try
+            {
+                var subscriberDto = await _subscriberService.SearchAsyncAll(search);
+
+                if (subscriberDto.Count() != 0)
+                {
+
+                    return Ok(subscriberDto);
+                }
+                else
+                {
+                    return NotFound(MyException.DataWithNameNotFound( tableName));
+                }
+            }catch (Exception ex)
+            {
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
 
         // GET api/<SubscriberController>/5
         [HttpGet("{id}")]

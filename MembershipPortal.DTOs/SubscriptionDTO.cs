@@ -32,13 +32,16 @@ namespace MembershipPortal.DTOs
             [Required(ErrorMessage = "Please enter valid Start Date")] DateTime StartDate,
             [Required(ErrorMessage = "Please enter valid Expiry Date")] DateTime ExpiryDate
         );
+
     public record GetSubscriptionDTO(
             long Id, long SubscriberId, 
-            long ProductId, string ProductName, decimal ProductPrice,
-            long DiscountId, string DiscountCode, decimal DiscountAmount,
+            long ProductId, string ProductName,
+            decimal ProductPrice, long DiscountId, 
+            string DiscountCode, decimal DiscountAmount,
             DateTime StartDate, DateTime ExpiryDate,
-            decimal PriceAfterDiscount,
-            long TaxId, decimal CGST, decimal SGST, decimal TotalTaxPercentage, decimal TaxAmount,
+            decimal PriceAfterDiscount,long TaxId, 
+            decimal CGST, decimal SGST, 
+            decimal TotalTaxPercentage, decimal TaxAmount,
             decimal FinalAmount
         );
 }

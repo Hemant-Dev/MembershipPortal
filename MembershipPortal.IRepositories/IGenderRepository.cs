@@ -10,5 +10,6 @@ namespace MembershipPortal.IRepositories
 {
     public interface IGenderRepository : IRepository<Gender>
     {
+        Task<IEnumerable<Gender>> SearchAsyncAll(string search);
     }
 }

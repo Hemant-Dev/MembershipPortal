@@ -34,12 +34,17 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var taxDTOList = await _taxService.GetTaxesAsync();
-                if (taxDTOList.Count() != 0)
+                if(taxDTOList != null)
                 {
                     return Ok(taxDTOList);
-
                 }
-                return NotFound(MyException.DataNotFound(tableName));
+                return null;
+                //if (taxDTOList.Count() != 0)
+                //{
+                //    return Ok(taxDTOList);
+
+                //}
+                //return NotFound(MyException.DataNotFound(tableName));
             }
             catch (Exception ex)
             {
@@ -60,7 +65,7 @@ namespace MembershipPortal.API.Controllers
                 {
                     return Ok(taxDTO);
                 }
-                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                return NotFound();
 
             }
             catch (Exception ex)
@@ -87,7 +92,7 @@ namespace MembershipPortal.API.Controllers
                 {
                     return Ok(result);
                 }
-                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                return NotFound();
 
             }
             catch (Exception ex)
@@ -133,7 +138,7 @@ namespace MembershipPortal.API.Controllers
                     var result = await _taxService.DeleteTaxAsync(id);
                     return Ok(result);
                 }
-                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                return NotFound();
             }
             catch (Exception ex)
             {
@@ -142,14 +147,5 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
-        private bool TaxExists(long id)
-        {
-            var result = _taxService.GetTaxByIdAsync(id);
-            if(result != null)
-            {
-                return true;
-            }
-            return false;
-        }
     }
 }

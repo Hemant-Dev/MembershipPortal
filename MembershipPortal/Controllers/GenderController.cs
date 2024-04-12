@@ -28,11 +28,39 @@ namespace MembershipPortal.API.Controllers
         {
             try{
                 var genders = await _genderService.GetGendersAsync();
-
-                if(genders.Count() != 0)
+                if(genders != null)
                 {
+                    return Ok(genders);
+                }
+                return NotFound();
+                //if(genders.Count() != 0)
+                //{
                   
-                     return Ok(genders);
+                //     return Ok(genders);
+                //}
+                //else
+                //{
+                //    return NotFound(MyException.DataNotFound(tableName));
+                //}
+
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<GetGenderDTO>>> Get(string search)
+        {
+            try
+            {
+                var genders = await _genderService.SearchGendersAsync(search);
+
+                if (genders.Count() != 0)
+                {
+
+                    return Ok(genders);
                 }
                 else
                 {
@@ -124,15 +152,15 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var genderDeleted = await _genderService.DeleteGenderAsync(id);
-
-                if (genderDeleted)
-                {
-                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
-                }
-                else
-                {
-                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
-                }
+                return Ok(genderDeleted);
+                //if (genderDeleted)
+                //{
+                //    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                //}
+                //else
+                //{
+                //    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                //}
             }
             catch (Exception ex)
             {

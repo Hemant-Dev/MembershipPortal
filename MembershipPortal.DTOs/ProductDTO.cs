@@ -30,8 +30,8 @@ namespace MembershipPortal.DTOs
 
         public record GetProductDTO(
            long Id,
-          string ProductName,
-         decimal Price
+           string ProductName,
+           decimal Price
 
           );
 

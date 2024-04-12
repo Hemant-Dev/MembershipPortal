@@ -1,4 +1,5 @@
 ﻿using MembershipPortal.DTOs;
+using MembershipPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,7 @@ namespace MembershipPortal.IServices
         Task<GetSubscriberDTO> CreateSubscriberAsync(CreateSubscriberDTO subscriberDTO);
 
         Task<bool> DeleteSubscriberAsync(long id);
+
+        Task<IEnumerable<GetSubscriberDTO>> SearchAsyncAll(string search);
     }
 }

@@ -31,16 +31,16 @@ namespace MembershipPortal.API.Controllers
            try
             {
                 var product = await _productService.GetProductsAsync();
+                return Ok(product);
+                //if (product.Count() != 0)
+                //{
 
-                if (product.Count() != 0)
-                {
-
-                    return Ok(product);
-                }
-                else
-                {
-                    return NotFound(MyException.DataNotFound(tableName));
-                }
+                //    return Ok(product);
+                //}
+                //else
+                //{
+                //    return NotFound(MyException.DataNotFound(tableName));
+                //}
             }
             catch (Exception ex)
             {
@@ -128,14 +128,15 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var isDeleted = await _productService.DeleteProductAsync(id);
-                if (isDeleted)
-                {
-                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
-                }
-                else
-                {
-                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
-                }
+                return Ok(isDeleted);
+                //if (isDeleted)
+                //{
+                //    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                //}
+                //else
+                //{
+                //    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                //}
             }
             catch (Exception ex)
             {

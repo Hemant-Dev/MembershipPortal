@@ -9,5 +9,6 @@ namespace MembershipPortal.IRepositories
 {
     public interface ISubscriberRepository : IRepository<Subscriber>
     {
+        Task<IEnumerable<Subscriber>> SearchAsyncAll(string search);
     }
 }

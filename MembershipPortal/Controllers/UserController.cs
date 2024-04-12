@@ -30,16 +30,14 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var users = await _userService.GetUsersAsync();
-                if (users.Count() != 0)
+                if(users != null)
                 {
-
                     return Ok(users);
                 }
                 else
                 {
-                    return NotFound(MyException.DataNotFound(tableName));
+                    return NoContent();
                 }
-
 
             }
             catch (Exception ex)
@@ -124,11 +122,13 @@ namespace MembershipPortal.API.Controllers
                 var userDeleted = await _userService.DeleteUserAsync(id);
                 if (userDeleted)
                 {
-                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                    //return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                    return Ok(userDeleted);
                 }
                 else
                 {
-                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                    //return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                    return Ok(userDeleted);
                 }
             }
             catch (Exception ex)
@@ -138,25 +138,21 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
-
-
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetUserSearchAsync(string find)
+        public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetModelSearchAsync(string find)
         {
             try
             {
-                var userInfo = await _userService.GetUserSearchAsync(find);
-                return Ok(userInfo);
+                var mobileInfo = await _userService.GetUserSearchAsync(find);
+                return Ok(mobileInfo);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while searching user info : {ex.Message}");
 
-
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
         }
-
 
         [HttpPost("advancesearch")]
         public async Task<ActionResult<IEnumerable<GetUserDTO>>> GetModelAdvanceSearchAsync(GetUserDTO userDtoObj)
@@ -168,8 +164,8 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while retrieving  advance search user info : {ex.Message}");
 
+                return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
     }

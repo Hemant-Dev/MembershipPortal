@@ -121,6 +121,33 @@ namespace MembershipPortal.Services
             return null;
         }
 
+        public async Task<IEnumerable<GetSubscriberDTO>> SearchAsyncAll(string search)
+        {
+            try
+            {
+                var subscribers = await _subscriberRepository.SearchAsyncAll(search);
+
+                if (subscribers != null)
+                {
+                    var subscribersDto = subscribers.Select(
+                                                         subscriber =>
+                                                         new GetSubscriberDTO
+                                                                               (subscriber.Id,
+                                                                                subscriber.FirstName,
+                                                                                subscriber.LastName,
+                                                                                subscriber.ContactNumber,
+                                                                                subscriber.Email,
+                                                                                subscriber.GenderId));
+                    return subscribersDto;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return null;
+        }
+
         public async Task<GetSubscriberDTO> UpdateSubscriberAsync(long id, UpdateSubscriberDTO subscriberDTO)
         {
             try

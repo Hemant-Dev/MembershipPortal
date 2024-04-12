@@ -46,13 +46,9 @@ namespace MembershipPortal.DTOs
 
         public record GetUserDTO(
             long Id,
-           
             string FirstName,
-            
             string LastName,
-            
             string Email,
-            
             string Password,
 
             string ContactNumber

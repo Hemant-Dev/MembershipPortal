@@ -11,6 +11,10 @@
         {
             return ($"{tableName} Table is empty");
         }
+        public static string DataWithNameNotFound(string tableName)
+        {
+            return ($"Data with this name is not found");
+        }
 
         public static string DataProcessingError(string errorMessage)
         {

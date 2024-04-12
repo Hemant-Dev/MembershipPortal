@@ -3,6 +3,7 @@ using MembershipPortal.DTOs;
 using MembershipPortal.IRepositories;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
+using NuGet.Protocol.Plugins;
 using System.Reflection;
 
 namespace MembershipPortal.Services
@@ -95,7 +96,32 @@ namespace MembershipPortal.Services
             }
             return null;
         }
-        
+
+        public async Task<IEnumerable<GetGenderDTO>> SearchGendersAsync(string search)
+        {
+            try
+            {
+                var genders = await _genderRepository.SearchAsyncAll(search);
+
+                if(genders != null)
+                {
+                    var genderDto = genders.Select(gender => new GetGenderDTO(
+
+                                gender.Id,
+                                gender.GenderName
+                    ));
+
+                    return genderDto;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return null;
+        }
+
         public async Task<GetGenderDTO> UpdateGenderAsync(long id, UpdateGenderDTO genderDTO)
         {
             try

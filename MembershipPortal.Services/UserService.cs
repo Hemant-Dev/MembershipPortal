@@ -39,7 +39,7 @@ namespace MembershipPortal.Services
                     user.FirstName,
                     user.LastName,
                     user.Email,
-                   user.Password,
+                    user.Password,
                     user.ContactNumber
                     );
             }
@@ -90,7 +90,7 @@ namespace MembershipPortal.Services
                          user.LastName,
                          user.Email,
                          user.Password,
-                          user.ContactNumber
+                         user.ContactNumber
                          );
                 }
             }
@@ -114,9 +114,8 @@ namespace MembershipPortal.Services
                              user.FirstName,
                              user.LastName,
                              user.Email,
-                            
                              user.Password,
-                              user.ContactNumber
+                             user.ContactNumber
                              ));
                 return userDto;
             }
@@ -172,7 +171,6 @@ namespace MembershipPortal.Services
                     user.Id,
                     user.FirstName,
                     user.LastName,
-                    
                     user.Email,
                     user.Password,
                     user.ContactNumber
@@ -203,7 +201,6 @@ namespace MembershipPortal.Services
                         user.Id,
                         user.FirstName,
                         user.LastName,
-                        
                         user.Email,
                         user.Password,
                         user.ContactNumber

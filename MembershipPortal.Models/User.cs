@@ -8,7 +8,6 @@ namespace MembershipPortal.Models
     public class User
     {
         [Key]
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
