@@ -77,7 +77,7 @@ namespace MembershipPortal.API.Controllers
             {
                 var subscriberDto = await _subscriberService.CreateSubscriberAsync(subscriberDTO);
 
-                return Ok(subscriberDto);
+                return StatusCode(200,subscriberDto);
             }catch(Exception ex)
             {
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));

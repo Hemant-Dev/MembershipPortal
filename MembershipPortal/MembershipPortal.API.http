@@ -294,3 +294,36 @@ Content-Type: application/json
 }
 
 ###
+
+Get {{MembershipPortal.API_HostAddress}}/api/tax
+
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/discountmode
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/discount
+Content-Type: application/json
+
+{
+   "discountCode": "GetDeal200",
+    "discountAmount": 100.00,
+    "isDiscountInPercentage": true
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/Subscription/1
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription
+Content-Type: application/json
+
+{
+  
+}
+
+###

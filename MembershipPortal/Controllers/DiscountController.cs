@@ -41,6 +41,7 @@ namespace MembershipPortal.API.Controllers
         // GET: api/Discount/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GetDiscountDTO>> GetDiscountByIdAsync(long id)
+        
         {
             try
             {
