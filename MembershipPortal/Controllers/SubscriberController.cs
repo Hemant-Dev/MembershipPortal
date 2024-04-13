@@ -30,16 +30,20 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var subscriberDto = await _subscriberService.GetSubscribersAsync();
-
-                if (subscriberDto.Count() != 0)
+                if(subscriberDto != null)
                 {
-
                     return Ok(subscriberDto);
                 }
-                else
-                {
-                    return NotFound(MyException.DataNotFound( tableName));
-                }
+                return NotFound();
+                //if (subscriberDto.Count() != 0)
+                //{
+
+                //    return Ok(subscriberDto);
+                //}
+                //else
+                //{
+                //    return NotFound(MyException.DataNotFound( tableName));
+                //}
             }catch (Exception ex)
             {
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
@@ -139,16 +143,16 @@ namespace MembershipPortal.API.Controllers
         {
             try
             {
-                var subscriberDto = await _subscriberService.DeleteSubscriberAsync(id);
-
-                if (subscriberDto)
-                {
-                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
-                }
-                else
-                {
-                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
-                }
+                var result = await _subscriberService.DeleteSubscriberAsync(id);
+                return Ok(result);
+                //if (subscriberDto)
+                //{
+                //    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                //}
+                //else
+                //{
+                //    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                //}
             }
             catch(Exception ex)
             {
