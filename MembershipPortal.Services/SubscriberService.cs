@@ -92,26 +92,17 @@ namespace MembershipPortal.Services
             return null;
         }
 
-        public async Task<IEnumerable<GetSubscriberDTO>> GetSubscribersAsync()
+        public async Task<IEnumerable<SubscriberWithGenderViewModel>> GetSubscribersAsync()
         {
             try
             {
-                var subscribers = await _subscriberRepository.GetAsyncAll();
+                var subscribers = await _subscriberRepository.GetAllSubscriberDataAsync();
 
                 if(subscribers != null)
                 {
-                    var subscribersDto = subscribers.Select(
-                                                         subscriber =>
-                                                         new GetSubscriberDTO
-                                                                                (subscriber.Id,
-                                                                                subscriber.FirstName,
-                                                                                subscriber.LastName,
-                                                                                subscriber.ContactNumber,
-                                                                                subscriber.Email,
-                                                                                subscriber.GenderId));
-                    return subscribersDto;
+                    return subscribers;
                 }
-
+                return null;
             }
             catch (Exception ex)
             {

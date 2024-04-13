@@ -1,6 +1,7 @@
 ﻿using MembershipPortal.API.ErrorHandling;
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
+using MembershipPortal.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static MembershipPortal.DTOs.ProductDTO;
@@ -25,14 +26,14 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/<SubscriberController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetSubscriberDTO>>> Get()
+        public async Task<ActionResult<IEnumerable<SubscriberWithGenderViewModel>>> Get()
         {
             try
             {
-                var subscriberDto = await _subscriberService.GetSubscribersAsync();
-                if(subscriberDto != null)
+                var subscriberList = await _subscriberService.GetSubscribersAsync();
+                if(subscriberList != null)
                 {
-                    return Ok(subscriberDto);
+                    return Ok(subscriberList);
                 }
                 return NotFound();
                 //if (subscriberDto.Count() != 0)

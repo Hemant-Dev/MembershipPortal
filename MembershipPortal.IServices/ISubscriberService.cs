@@ -12,7 +12,7 @@ namespace MembershipPortal.IServices
     {
         Task<GetSubscriberDTO> GetSubscriberAsync(long id);
 
-        Task<IEnumerable<GetSubscriberDTO>> GetSubscribersAsync();
+        Task<IEnumerable<SubscriberWithGenderViewModel>> GetSubscribersAsync();
 
         Task<GetSubscriberDTO> UpdateSubscriberAsync(long id, UpdateSubscriberDTO subscriberDTO);
 

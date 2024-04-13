@@ -4,3 +4,7 @@ GET {{MembershipPortal_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{MembershipPortal_HostAddress}}/api/subscriber
+
+###

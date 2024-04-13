@@ -19,7 +19,6 @@ namespace MembershipPortal.API.Controllers
     public class TaxController : ControllerBase
     {
         private readonly ITaxService _taxService;
-        private readonly string tableName = "Tax";
 
 
         public TaxController(ITaxService taxService)
@@ -38,7 +37,7 @@ namespace MembershipPortal.API.Controllers
                 {
                     return Ok(taxDTOList);
                 }
-                return null;
+                return NotFound();
                 //if (taxDTOList.Count() != 0)
                 //{
                 //    return Ok(taxDTOList);

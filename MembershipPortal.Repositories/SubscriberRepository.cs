@@ -19,6 +19,27 @@ namespace MembershipPortal.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<IEnumerable<SubscriberWithGenderViewModel>> GetAllSubscriberDataAsync()
+        {
+            var subscriberList = await _dbContext.Subscribers
+                .Include(s => s.Gender)
+                .Select(subscriber =>
+                    new SubscriberWithGenderViewModel()
+                    {
+                        Id = subscriber.Id,
+                        FirstName = subscriber.FirstName,
+                        LastName = subscriber.LastName,
+                        ContactNumber = subscriber.ContactNumber,
+                        Email = subscriber.Email,
+                        GenderId = subscriber.GenderId,
+                        GenderName = subscriber.Gender.GenderName
+                    }
+
+                )
+                .ToListAsync();
+            return subscriberList != null ? subscriberList : null;
+        }
+
         public async Task<IEnumerable<Subscriber>> SearchAsyncAll(string search)
         {
             var keyword = search.ToLower();
