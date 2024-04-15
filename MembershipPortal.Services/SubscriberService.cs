@@ -74,7 +74,7 @@ namespace MembershipPortal.Services
                 if(subscriber != null)
                 {
                     var getSubscriber = new GetSubscriberDTO
-                                                    (subscriber.Id,
+                                                    (   subscriber.Id,
                                                         subscriber.FirstName,
                                                         subscriber.LastName,
                                                         subscriber.ContactNumber,
@@ -84,7 +84,7 @@ namespace MembershipPortal.Services
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Console.WriteLine($"Error occurred in GetSubscriberAsync: {ex.Message}");
                 throw;

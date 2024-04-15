@@ -11,6 +11,7 @@ namespace MembershipPortal.IRepositories
     public interface ISubscriptionRepository : IRepository<Subscription>
     {
         Task<IEnumerable<GetSubscriptionDTO>> GetAllSubscriptionForeignAsync();
+
         Task<Subscription> CreateSubscriptionAsync(CreateSubscriptionDTO subscriptionDTO);
 
         Task<Subscription> UpdateSubscriptionAsync(long Id, UpdateSubscriptionDTO updateSubscriptionDTO);

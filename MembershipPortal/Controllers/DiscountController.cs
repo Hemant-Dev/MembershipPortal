@@ -11,7 +11,7 @@ namespace MembershipPortal.API.Controllers
     public class DiscountController : ControllerBase
     {
         private readonly IDiscountService _discountService;
-        public string tableName = "Discount";
+        
 
         public DiscountController(IDiscountService discountService)
         {
@@ -29,12 +29,12 @@ namespace MembershipPortal.API.Controllers
                 {
                     return Ok(discoutDTOList);
                 }
-                return NotFound(MyException.DataNotFound(tableName));
+                return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
         }
 
@@ -46,17 +46,17 @@ namespace MembershipPortal.API.Controllers
             {
                 var discountDTO = await _discountService.GetDiscountByIdAsync(id);
 
-                if (discountDTO == null)
+                if (discountDTO != null)
                 {
-                    return NotFound(id);
+                    return discountDTO;
                 }
 
-                return NotFound(MyException.DataWithIdNotPresent(id,tableName));
+                return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
         }
 
@@ -76,17 +76,17 @@ namespace MembershipPortal.API.Controllers
 
                 if (oldDiscount == null)
                 {
-                    return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                    return NotFound();
                 }
 
                 var result =  await _discountService.UpdateDiscountAsync(id, discountDTO);
 
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
 
         }
@@ -105,10 +105,9 @@ namespace MembershipPortal.API.Controllers
                 }
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
         }
 
@@ -118,18 +117,12 @@ namespace MembershipPortal.API.Controllers
         {
             try
             {
-                var discountDTO = await _discountService.GetDiscountByIdAsync(id);
-                if (discountDTO != null)
-                {
-                    var result = await _discountService.DeleteDiscountAsync(id);
-                    return Ok(MyException.DataDeletedSuccessfully(tableName));
-                }
-                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                var result = await _discountService.DeleteDiscountAsync(id);
+                return result;   
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
         }
 

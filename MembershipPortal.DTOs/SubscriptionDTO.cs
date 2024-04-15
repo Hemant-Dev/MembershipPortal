@@ -26,7 +26,7 @@ namespace MembershipPortal.DTOs
     //[Required(ErrorMessage = "Please enter valid Expiry Date")]
     public record UpdateSubscriptionDTO(
             [Required(ErrorMessage ="Please enter subscriptionId")] long Id,
-           // [Required(ErrorMessage = "Please enter valid subscriber Id")] long SubscriberId,
+            [Required(ErrorMessage = "Please enter valid subscriber Id")] long SubscriberId,
             [Required(ErrorMessage = "Please enter valid product Id")] long ProductId,
             long DiscountId,
             [Required(ErrorMessage = "Please enter valid Start Date")] DateTime StartDate,

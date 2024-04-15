@@ -28,18 +28,22 @@ namespace MembershipPortal.API.Controllers
             try
             {
                 var getSubscriptionDTOList = await _subscriptionService.GetAllSubscriptionForeignAsync();
-
-                if(getSubscriptionDTOList.Count() != 0)
+                if(getSubscriptionDTOList != null)
                 {
                     return Ok(getSubscriptionDTOList);
-
                 }
-                return NotFound(MyException.DataNotFound(tableName));
+                return NotFound();
+                //if(getSubscriptionDTOList.Count() != 0)
+                //{
+                //    return Ok(getSubscriptionDTOList);
+
+                //}
+                //return NotFound(MyException.DataNotFound(tableName));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
         }
 
@@ -55,10 +59,10 @@ namespace MembershipPortal.API.Controllers
                 }
                 return NotFound(MyException.DataWithIdNotPresent(id, tableName));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
+                //return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -75,10 +79,10 @@ namespace MembershipPortal.API.Controllers
                 }
                 return BadRequest("Failed To create entry to the database table");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
+                //return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
         }
 
@@ -93,13 +97,13 @@ namespace MembershipPortal.API.Controllers
                 {
                     return Ok(result);
                 }
-                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                return NotFound();
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
+                //return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
         }
@@ -114,16 +118,16 @@ namespace MembershipPortal.API.Controllers
                 if (result != null)
                 {
                     var subscription = await _subscriptionService.DeleteSubscriptionByIdAsync(id);
-                    return StatusCode(200, MyException.DataDeletedSuccessfully(tableName));
+                    return subscription;
                 }
-                return NotFound(MyException.DataWithIdNotPresent(id, tableName));
+                return NotFound();
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
+                //return StatusCode(500, MyException.DataProcessingError(ex.Message));
             }
 
         }
