@@ -19,12 +19,12 @@ namespace MembershipPortal.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<SubscriberWithGenderViewModel>> GetAllSubscriberDataAsync()
+        public async Task<IEnumerable<Subscriber>> GetAllSubscriberDataAsync()
         {
             var subscriberList = await _dbContext.Subscribers
                 .Include(s => s.Gender)
                 .Select(subscriber =>
-                    new SubscriberWithGenderViewModel()
+                    new Subscriber()
                     {
                         Id = subscriber.Id,
                         FirstName = subscriber.FirstName,
