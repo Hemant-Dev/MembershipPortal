@@ -130,7 +130,7 @@ namespace MembershipPortal.Repositories
 
             if (oldSubscription != null)
             {
-
+                oldSubscription.SubscriberId = updateSubscriptionDTO.SubscriberId;
                 if(oldSubscription.ProductId != updateSubscriptionDTO.ProductId)
                 {
                     oldSubscription.ProductId = updateSubscriptionDTO.ProductId;

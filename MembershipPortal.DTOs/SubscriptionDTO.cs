@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MembershipPortal.DTOs
 {
@@ -18,8 +19,8 @@ namespace MembershipPortal.DTOs
             [Required(ErrorMessage = "Please enter valid product Id")] long ProductId,
             long DiscountId,
             long TaxId,
-            DateTime StartDate,
-            DateTime ExpiryDate
+            DateOnly StartDate,
+            DateOnly ExpiryDate
 
         );
     //[Required(ErrorMessage = "Please enter valid Start Date")] 
@@ -29,8 +30,8 @@ namespace MembershipPortal.DTOs
             [Required(ErrorMessage = "Please enter valid subscriber Id")] long SubscriberId,
             [Required(ErrorMessage = "Please enter valid product Id")] long ProductId,
             long DiscountId,
-            [Required(ErrorMessage = "Please enter valid Start Date")] DateTime StartDate,
-            [Required(ErrorMessage = "Please enter valid Expiry Date")] DateTime ExpiryDate
+            [Required(ErrorMessage = "Please enter valid Start Date")] DateOnly StartDate,
+            [Required(ErrorMessage = "Please enter valid Expiry Date")] DateOnly ExpiryDate
         );
 
     public record GetSubscriptionDTO(
@@ -38,7 +39,7 @@ namespace MembershipPortal.DTOs
             long ProductId, string ProductName,
             decimal ProductPrice, long DiscountId, 
             string DiscountCode, decimal DiscountAmount,
-            DateTime StartDate, DateTime ExpiryDate,
+            DateOnly StartDate, DateOnly ExpiryDate,
             decimal PriceAfterDiscount,long TaxId, 
             decimal CGST, decimal SGST, 
             decimal TotalTaxPercentage, decimal TaxAmount,
