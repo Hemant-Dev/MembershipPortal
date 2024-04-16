@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MembershipPortal.Models
 {
     [Table("Subscribers")]
-    public class Subscriber
+    public class Subscriber : SubscriberWithGenderViewModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

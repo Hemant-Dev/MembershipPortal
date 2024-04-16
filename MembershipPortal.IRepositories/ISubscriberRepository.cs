@@ -10,6 +10,6 @@ namespace MembershipPortal.IRepositories
     public interface ISubscriberRepository : IRepository<Subscriber>
     {
         Task<IEnumerable<Subscriber>> SearchAsyncAll(string search);
-        Task<IEnumerable<SubscriberWithGenderViewModel>> GetAllSubscriberDataAsync();
+        Task<IEnumerable<Subscriber>> GetAllSubscriberDataAsync();
     }
 }
