@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MembershipPortal.Models
 {
-    public class SubscriberWithGenderViewModel : Subscriber
-    {
+    public class SubscriberWithGenderViewModel { 
+
         public string GenderName { get; set; }
     }
 }

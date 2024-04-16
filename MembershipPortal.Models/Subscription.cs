@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace MembershipPortal.Models
 {
@@ -37,10 +39,10 @@ namespace MembershipPortal.Models
         public decimal DiscountAmount { get; set; }
 
         [Required(ErrorMessage = "Please enter valid Start Date")]
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateOnly StartDate { get; set; }
 
         [Required(ErrorMessage = "Please enter valid expiry Date")]
-        public DateTime ExpiryDate { get; set; } = DateTime.Now;
+        public DateOnly ExpiryDate { get; set; }
 
         public decimal PriceAfterDiscount { get; set; }
 

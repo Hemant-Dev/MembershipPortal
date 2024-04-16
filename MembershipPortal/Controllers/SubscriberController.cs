@@ -26,7 +26,7 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/<SubscriberController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubscriberWithGenderViewModel>>> Get()
+        public async Task<ActionResult<IEnumerable<Subscriber>>> Get()
         {
             try
             {
