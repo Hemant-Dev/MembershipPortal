@@ -37,10 +37,10 @@ namespace MembershipPortal.Models
         public decimal DiscountAmount { get; set; }
 
         [Required(ErrorMessage = "Please enter valid Start Date")]
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateOnly StartDate { get; set; }
 
         [Required(ErrorMessage = "Please enter valid expiry Date")]
-        public DateTime ExpiryDate { get; set; } = DateTime.Now;
+        public DateOnly ExpiryDate { get; set; }
 
         public decimal PriceAfterDiscount { get; set; }
 
