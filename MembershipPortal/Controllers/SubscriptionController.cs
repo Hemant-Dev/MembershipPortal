@@ -23,26 +23,36 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/<SubscriptionController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetSubscriptionDTO>>> Get()
+        //public async Task<ActionResult<IEnumerable<GetSubscriptionDTO>>> Get()
+        //{
+        //    try
+        //    {
+        //        var getSubscriptionDTOList = await _subscriptionService.GetAllSubscriptionForeignAsync();
+        //        if(getSubscriptionDTOList != null)
+        //        {
+        //            return Ok(getSubscriptionDTOList);
+        //        }
+        //        return NotFound()
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+        public async Task<ActionResult<IEnumerable<GetSubscriptionDTO>>> Get(string? sortColumn, string? sortOrder)
         {
             try
             {
-                var getSubscriptionDTOList = await _subscriptionService.GetAllSubscriptionForeignAsync();
-                if(getSubscriptionDTOList != null)
+                var getSubscriptionDTOList = await _subscriptionService.GetAllSortedSubscriptions(sortColumn, sortOrder);
+                if (getSubscriptionDTOList != null)
                 {
                     return Ok(getSubscriptionDTOList);
                 }
                 return NotFound();
-                //if(getSubscriptionDTOList.Count() != 0)
-                //{
-                //    return Ok(getSubscriptionDTOList);
-
-                //}
-                //return NotFound(MyException.DataNotFound(tableName));
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

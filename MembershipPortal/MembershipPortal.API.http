@@ -343,3 +343,7 @@ GET {{MembershipPortal.API_HostAddress}}/api/subscriber
 ###
 
 
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscription?sortColumn=&sortOrder=
+
+###

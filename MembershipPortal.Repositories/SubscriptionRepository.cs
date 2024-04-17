@@ -314,6 +314,59 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
         }
 
-        
+        public async Task<IEnumerable<Subscription>> GetAllSortedSubscriptions(string? sortColumn, string? sortOrder)
+        {
+            IQueryable<Subscription> query = _dbContext.Subscriptions;
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                // Determine the sort order based on sortOrder parameter
+                bool isAscending = sortOrder.ToLower() == "asc";
+                switch (sortColumn.ToLower())
+                {
+                    case "productname":
+                        query = isAscending ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
+                        break;
+                    case "productprice":
+                        query = isAscending ? query.OrderBy(s => s.ProductPrice) : query.OrderByDescending(s => s.ProductPrice);
+                        break;
+                    case "discountcode":
+                        query = isAscending ? query.OrderBy(s => s.DiscountCode) : query.OrderByDescending(s => s.DiscountCode);
+                        break;
+                    case "discountamount":
+                        query = isAscending ? query.OrderBy(s => s.DiscountAmount) : query.OrderByDescending(s => s.DiscountAmount);
+                        break;
+                    case "priceafterdiscount":
+                        query = isAscending ? query.OrderBy(s => s.PriceAfterDiscount) : query.OrderByDescending(s => s.PriceAfterDiscount);
+                        break;
+                    case "cgst":
+                        query = isAscending ? query.OrderBy(s => s.CGST) : query.OrderByDescending(s => s.CGST);
+                        break;
+                    case "sgst":
+                        query = isAscending ? query.OrderBy(s => s.SGST) : query.OrderByDescending(s => s.SGST);
+                        break;
+                    case "totaltaxpercentage":
+                        query = isAscending ? query.OrderBy(s => s.TotalTaxPercentage) : query.OrderByDescending(s => s.TotalTaxPercentage);
+                        break;
+                    case "taxamount":
+                        query = isAscending ? query.OrderBy(s => s.TaxAmount) : query.OrderByDescending(s => s.TaxAmount);
+                        break;
+                    case "finalamount":
+                        query = isAscending ? query.OrderBy(s => s.FinalAmount) : query.OrderByDescending(s => s.FinalAmount);
+                        break;
+                    case "startdate":
+                        query = isAscending ? query.OrderBy(s => s.StartDate) : query.OrderByDescending(s => s.StartDate);
+                        break;
+                    case "expirydate":
+                        query = isAscending ? query.OrderBy(s => s.ExpiryDate) : query.OrderByDescending(s => s.ExpiryDate);
+                        break;
+                    default:
+                        query = query.OrderBy(s => s.Id);
+                        break;
+                }
+
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }
