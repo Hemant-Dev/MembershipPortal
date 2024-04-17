@@ -26,28 +26,44 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/<SubscriberController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubscriberWithGenderViewModel>>> Get()
+        //public async Task<ActionResult<IEnumerable<SubscriberWithGenderViewModel>>> Get()
+        //{
+        //    try
+        //    {
+        //        var subscriberList = await _subscriberService.GetSubscribersAsync();
+        //        if(subscriberList != null)
+        //        {
+        //            return Ok(subscriberList);
+        //        }
+        //        return NotFound();
+        //        //if (subscriberDto.Count() != 0)
+        //        //{
+
+        //        //    return Ok(subscriberDto);
+        //        //}
+        //        //else
+        //        //{
+        //        //    return NotFound(MyException.DataNotFound( tableName));
+        //        //}
+        //    }catch (Exception ex)
+        //    {
+        //        return StatusCode(500, MyException.DataProcessingError(ex.Message));
+        //    }
+        //}
+        public async Task<ActionResult<IEnumerable<SubscriberWithGenderViewModel>>> Get(string? sortColumn, string? sortOrder)
         {
             try
             {
-                var subscriberList = await _subscriberService.GetSubscribersAsync();
-                if(subscriberList != null)
+                var getSubscribersDTOList = await _subscriberService.GetAllSortedSubscribers(sortColumn, sortOrder);
+                if (getSubscribersDTOList != null)
                 {
-                    return Ok(subscriberList);
+                    return Ok(getSubscribersDTOList);
                 }
                 return NotFound();
-                //if (subscriberDto.Count() != 0)
-                //{
-
-                //    return Ok(subscriberDto);
-                //}
-                //else
-                //{
-                //    return NotFound(MyException.DataNotFound( tableName));
-                //}
-            }catch (Exception ex)
+            }
+            catch (Exception)
             {
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
         }
         [HttpGet("search")]

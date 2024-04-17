@@ -21,5 +21,7 @@ namespace MembershipPortal.IServices
         Task<bool> DeleteSubscriberAsync(long id);
 
         Task<IEnumerable<GetSubscriberDTO>> SearchAsyncAll(string search);
+
+        Task<IEnumerable<GetSubscriberDTO>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder);
     }
 }

@@ -174,5 +174,27 @@ namespace MembershipPortal.Services
             return null;
                     
         }
+
+        public async Task<IEnumerable<GetSubscriberDTO>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var sortedSubscribersList = await _subscriberRepository.GetAllSortedSubscribers(sortColumn, sortOrder);
+                if (sortedSubscribersList != null)
+                {
+                    var sortedSubscribersDTOList = sortedSubscribersList.Select(subscribers => new GetSubscriberDTO(
+                            subscribers.Id, subscribers.FirstName, subscribers.LastName, subscribers.ContactNumber, subscribers.Email, subscribers.GenderId
+                        ))
+                        .ToList();
+                    return sortedSubscribersDTOList;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
