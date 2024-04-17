@@ -13,14 +13,14 @@ using static MembershipPortal.DTOs.UserDTO;
 
 namespace MembershipPortal.Services
 {
-    public  class ProductService : IProductService
+    public class ProductService : IProductService
     {
 
         private readonly IProductRepository _productRepository;
 
-        public ProductService (IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository)
         {
-           _productRepository = productRepository;
+            _productRepository = productRepository;
         }
 
         public async Task<GetProductDTO> CreateProductAsync(CreateProductDTO createProductDTO)
@@ -40,7 +40,7 @@ namespace MembershipPortal.Services
                     product.Price
                     );
             }
-            catch (Exception )
+            catch (Exception)
             {
                 //Console.WriteLine($"Error occurred in CreateProductAsync: {ex.Message}");
                 throw; ;
@@ -61,9 +61,9 @@ namespace MembershipPortal.Services
                     return true;
                 }
             }
-            catch (Exception )
+            catch (Exception)
             {
-               // Console.WriteLine($"Error occurred in DeleteProductAsync: {ex.Message}");
+                // Console.WriteLine($"Error occurred in DeleteProductAsync: {ex.Message}");
                 throw;
             }
             return false;
@@ -96,7 +96,7 @@ namespace MembershipPortal.Services
             try
             {
                 var product = await _productRepository.GetAsyncById(Id);
-                if(product != null)
+                if (product != null)
                 {
                     return new GetProductDTO(
 
@@ -105,13 +105,13 @@ namespace MembershipPortal.Services
                         product.Price
                         );
                 }
-                
+
             }
-            catch (Exception )
+            catch (Exception)
             {
                 // Console.WriteLine($"Error occurred in GetProductAsync: {ex.Message}");
                 throw;
-                
+
             }
             return null;
         }
@@ -136,11 +136,11 @@ namespace MembershipPortal.Services
                                oldProduct.Price
                           );
                     }
-                    
+
                 }
                 return null;
             }
-            catch (Exception )
+            catch (Exception)
             {
 
                 //Console.WriteLine($"Error occurred in UpdateProductAsync: {ex.Message}");
@@ -161,7 +161,7 @@ namespace MembershipPortal.Services
                     product.Id,
                     product.ProductName,
                     product.Price
-                   
+
                 ));
 
             return productdto;
@@ -175,8 +175,8 @@ namespace MembershipPortal.Services
                 {
                     Id = getProductDTO.Id,
                     ProductName = getProductDTO.ProductName,
-                    Price= getProductDTO.Price
-                  
+                    Price = getProductDTO.Price
+
                 });
 
 
@@ -185,7 +185,7 @@ namespace MembershipPortal.Services
                         product.Id,
                         product.ProductName,
                         product.Price
-                     
+
                         ));
                 return productdto;
             }
@@ -210,6 +210,27 @@ namespace MembershipPortal.Services
                 ).ToList();
             return (productDTOList, productListAndTotalPages.Item2);
 
+        }
+
+        public async Task<IEnumerable<GetProductDTO>> GetAllSortedProducts(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var sortedProductsList = await _productRepository.GetAllSortedProducts(sortColumn, sortOrder);
+                if (sortedProductsList != null)
+                {
+                    var sortedProductsDTOList = sortedProductsList
+                        .Select(product => new GetProductDTO(product.Id, product.ProductName, product.Price)
+                    ).ToList();
+                    return sortedProductsDTOList;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

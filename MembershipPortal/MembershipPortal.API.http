@@ -347,3 +347,7 @@ GET {{MembershipPortal.API_HostAddress}}/api/subscriber
 GET {{MembershipPortal.API_HostAddress}}/api/subscription?sortColumn=&sortOrder=
 
 ###
+
+GET {{MembershipPortal.API_HostAddress}}/api/product?sortColumn=productName&sortOrder=desc
+
+###

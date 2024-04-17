@@ -61,5 +61,30 @@ namespace MembershipPortal.Repositories
             productsList = productsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return (productsList, totalPages);
         }
+
+        public async Task<IEnumerable<Product>> GetAllSortedProducts(string? sortColumn, string? sortOrder)
+        {
+            IQueryable<Product> query = _dbContext.Products;
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                // Determine the sort order based on sortOrder parameter
+                bool isAscending = sortOrder.ToLower() == "asc";
+                switch (sortColumn.ToLower())
+                {
+                    case "productname":
+                        query = isAscending ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
+                        break;
+                    case "price":
+                        query = isAscending ? query.OrderBy(s => s.Price) : query.OrderByDescending(s => s.Price);
+                        break;
+                    default:
+                        query = query.OrderBy(s => s.Id);
+                        break;
+                }
+
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

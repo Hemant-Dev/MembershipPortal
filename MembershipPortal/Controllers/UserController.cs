@@ -1,6 +1,8 @@
 ﻿using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
+using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
 using static MembershipPortal.DTOs.UserDTO;
@@ -24,28 +26,44 @@ namespace MembershipPortal.API.Controllers
         }
         // GET: api/<UserController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetUserDTO>>> Get()
-        {
+        //public async Task<ActionResult<IEnumerable<GetUserDTO>>> Get()
+        //{
 
+        //    try
+        //    {
+        //        var users = await _userService.GetUsersAsync();
+        //        if(users != null)
+        //        {
+        //            return Ok(users);
+        //        }
+        //        else
+        //        {
+        //            return NoContent();
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return StatusCode(500, MyException.DataProcessingError(ex.Message));
+        //    }
+
+        //}
+        public async Task<ActionResult<IEnumerable<GetUserDTO>>> Get(string? sortColumn, string? sortOrder)
+        {
             try
             {
-                var users = await _userService.GetUsersAsync();
-                if(users != null)
+                var getUserDTOList = await _userService.GetAllSortedUsers(sortColumn, sortOrder);
+                if (getUserDTOList != null)
                 {
-                    return Ok(users);
+                    return Ok(getUserDTOList);
                 }
-                else
-                {
-                    return NoContent();
-                }
-
+                return NotFound();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
-
         }
 
         // GET api/<UserController>/5
