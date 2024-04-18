@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static MembershipPortal.DTOs.UserDTO;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MembershipPortal.Repositories
 {
@@ -95,5 +96,32 @@ namespace MembershipPortal.Repositories
        
         }
 
+        public async Task<(IEnumerable<User>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User userObj)
+        {
+            var query = _dbContext.Users.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(userObj.FirstName))
+            {
+                query = query.Where(user => user.FirstName.Contains(userObj.FirstName));
+            }
+            if (!string.IsNullOrWhiteSpace(userObj.LastName))
+            {
+                query = query.Where(user => user.LastName.Contains(userObj.LastName));
+            }
+            if (!string.IsNullOrWhiteSpace(userObj.ContactNumber))
+            {
+                query = query.Where(user => user.ContactNumber.Contains(userObj.ContactNumber));
+            }
+            if (!string.IsNullOrWhiteSpace(userObj.Email))
+            {
+                query = query.Where(user => user.Email.Contains(userObj.Email));
+            }
+
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages);
+        }
     }
 }

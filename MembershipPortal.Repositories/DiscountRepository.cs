@@ -18,6 +18,27 @@ namespace MembershipPortal.Repositories
             this._dbContext = dbContext;
         }
 
+        public async Task<(IEnumerable<Discount>, int)> GetAllPaginatedDiscountAsync(int page, int pageSize, Discount discountObj)
+        {
+            var query = _dbContext.Discounts.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(discountObj.DiscountCode))
+            {
+                query = query.Where(discount => discount.DiscountCode.Contains(discountObj.DiscountCode));
+            }
+            if (discountObj.DiscountAmount >= 0)
+            {
+                query = query.Where(discount => discount.DiscountAmount == discountObj.DiscountAmount);
+            }
+            
+
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages);
+        }
+
         public async Task<IEnumerable<Discount>> GetAllSortedDiscount(string? sortColumn, string? sortOrder)
         {
             IQueryable<Discount> query = _dbContext.Discounts;

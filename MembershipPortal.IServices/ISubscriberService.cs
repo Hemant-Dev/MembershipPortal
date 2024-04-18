@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MembershipPortal.DTOs.UserDTO;
 
 namespace MembershipPortal.IServices
 {
@@ -23,5 +24,6 @@ namespace MembershipPortal.IServices
         Task<IEnumerable<GetSubscriberDTO>> SearchAsyncAll(string search);
 
         Task<IEnumerable<GetSubscriberDTO>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder);
+        public Task<(IEnumerable<GetSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber);
     }
 }

@@ -2,6 +2,7 @@
 using MembershipPortal.IRepositories;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
+using static MembershipPortal.DTOs.UserDTO;
 
 namespace MembershipPortal.Services
 {
@@ -85,14 +86,13 @@ namespace MembershipPortal.Services
                                                         );
                     return getSubscriber;
                 }
-
+                return null;
             }
             catch (Exception)
             {
                 // Console.WriteLine($"Error occurred in GetSubscriberAsync: {ex.Message}");
                 throw;
             }
-            return null;
         }
 
         public async Task<IEnumerable<SubscriberWithGenderViewModel>> GetSubscribersAsync()
@@ -107,12 +107,11 @@ namespace MembershipPortal.Services
                 }
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Console.WriteLine($"Error occurred in GetSubscribersAsync: {ex.Message}");
                 throw;
             }
-            return null;
         }
 
         public async Task<IEnumerable<GetSubscriberDTO>> SearchAsyncAll(string search)
@@ -198,6 +197,24 @@ namespace MembershipPortal.Services
 
                 throw;
             }
+        }
+
+        public async Task<(IEnumerable<GetSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber)
+        {
+            var subscriberListAndTotalPages = await _subscriberRepository.GetAllPaginatedSubscriberAsync(page, pageSize, subscriber);
+            var userDTOList = subscriberListAndTotalPages.Item1.Select(subscriber =>
+
+                    new GetSubscriberDTO(
+                            subscriber.Id,
+                            subscriber.FirstName,
+                            subscriber.LastName,
+                            subscriber.Email,
+                            subscriber.ContactNumber,
+                            subscriber.GenderId,
+                            null
+                        )
+                ).ToList();
+            return (userDTOList, subscriberListAndTotalPages.Item2);
         }
     }
 }

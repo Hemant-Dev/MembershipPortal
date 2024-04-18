@@ -19,6 +19,38 @@ namespace MembershipPortal.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriberObj)
+        {
+            var query = _dbContext.Subscribers.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(subscriberObj.FirstName))
+            {
+                query = query.Where(subscriber => subscriber.FirstName.Contains(subscriberObj.FirstName));
+            }
+            if (!string.IsNullOrWhiteSpace(subscriberObj.LastName))
+            {
+                query = query.Where(subscriber => subscriber.LastName.Contains(subscriberObj.LastName));
+            }
+            if (!string.IsNullOrWhiteSpace(subscriberObj.ContactNumber))
+            {
+                query = query.Where(subscriber => subscriber.ContactNumber.Contains(subscriberObj.ContactNumber));
+            }
+            if (!string.IsNullOrWhiteSpace(subscriberObj.Email))
+            {
+                query = query.Where(subscriber => subscriber.Email.Contains(subscriberObj.Email));
+            }
+            if (subscriberObj.GenderId > 0)
+            {
+                query = query.Where(subscriber => subscriber.GenderId == subscriberObj.GenderId);
+            }
+
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages);
+        }
+
         public async Task<IEnumerable<Subscriber>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder)
         {
             IQueryable<Subscriber> query = _dbContext.Subscribers.Include(s => s.Gender);

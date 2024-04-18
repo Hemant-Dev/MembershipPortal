@@ -2,9 +2,11 @@
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
+using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using static MembershipPortal.DTOs.ProductDTO;
+using static MembershipPortal.DTOs.UserDTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -174,6 +176,31 @@ namespace MembershipPortal.API.Controllers
             catch(Exception ex)
             {
                 return StatusCode(500, MyException.DataProcessingError(ex.Message));
+            }
+        }
+        [HttpPost("paginated")]
+        public async Task<ActionResult<Paginated<GetSubscriberDTO>>> GetPaginatedUserData(int page, int pageSize, [FromBody] GetSubscriberDTO subscriber)
+        {
+            try
+            {
+                var paginatedSubscriberDTOAndTotalPages = await _subscriberService.GetAllPaginatedSubscriberAsync(page, pageSize, new Subscriber()
+                {
+                    FirstName = subscriber.FirstName,
+                    LastName = subscriber.LastName,
+                    Email = subscriber.Email,
+                    ContactNumber = subscriber.ContactNumber,
+                    GenderId = subscriber.GenderId
+                });
+                var result = new Paginated<GetSubscriberDTO>
+                {
+                    dataArray = paginatedSubscriberDTOAndTotalPages.Item1,
+                    totalPages = paginatedSubscriberDTOAndTotalPages.Item2
+                };
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
