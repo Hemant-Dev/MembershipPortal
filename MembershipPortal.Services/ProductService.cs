@@ -197,9 +197,9 @@ namespace MembershipPortal.Services
             return null;
         }
 
-        public async Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedProductAsync(int page, int pageSize)
+        public async Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product product)
         {
-            var productListAndTotalPages = await _productRepository.GetAllPaginatedProductAsync(page, pageSize);
+            var productListAndTotalPages = await _productRepository.GetAllPaginatedProductAsync(page, pageSize, product);
             var productDTOList = productListAndTotalPages.Item1.Select(product =>
 
                     new GetProductDTO(

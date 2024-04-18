@@ -53,13 +53,27 @@ namespace MembershipPortal.Repositories
 
         }
 
-        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize)
+        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product productObj)
         {
-            var productsList = await _dbContext.Products.ToListAsync();
-            int totalCount = productsList.Count;
+
+            var query = _dbContext.Products.AsQueryable();
+
+
+
+            if (!string.IsNullOrWhiteSpace(productObj.ProductName))
+            {
+                query = query.Where(product => product.ProductName == productObj.ProductName);
+            }
+            if (productObj.Price > 0)
+            {
+                query = query.Where(product => product.Price == productObj.Price);
+            }
+
+            int totalCount = query.Count();
             int totalPages = (int)(Math.Ceiling((decimal) totalCount / pageSize));
-            productsList = productsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            return (productsList, totalPages);
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages);
         }
 
         public async Task<IEnumerable<Product>> GetAllSortedProducts(string? sortColumn, string? sortOrder)

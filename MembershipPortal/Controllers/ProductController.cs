@@ -66,16 +66,39 @@ namespace MembershipPortal.API.Controllers
             }
         }
 
-        [HttpGet("paginated")]
-        public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize)
+        //[HttpGet("paginated")]
+        //public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize)
+        //{
+        //    var paginatedProductDTOAndTotalPages = await _productService.GetAllPaginatedProductAsync(page, pageSize);
+        //    var result = new Paginated<GetProductDTO>()
+        //    {
+        //        dataArray = paginatedProductDTOAndTotalPages.Item1,
+        //        totalPages = paginatedProductDTOAndTotalPages.Item2
+        //    };
+        //    return Ok(result);
+        //}
+        [HttpPost("paginated")]
+        public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize,[FromBody] GetProductDTO product)
         {
-            var paginatedProductDTOAndTotalPages = await _productService.GetAllPaginatedProductAsync(page, pageSize);
-            var result = new Paginated<GetProductDTO>()
+            try
             {
-                dataArray = paginatedProductDTOAndTotalPages.Item1,
-                totalPages = paginatedProductDTOAndTotalPages.Item2
-            };
-            return Ok(result);
+                var paginatedProductDTOAndTotalPages = await _productService.GetAllPaginatedProductAsync(page, pageSize, new Product()
+                {
+                    ProductName = product.ProductName,
+                    Price = product.Price
+                });
+                var result = new Paginated<GetProductDTO>
+                {
+                    dataArray = paginatedProductDTOAndTotalPages.Item1,
+                    totalPages = paginatedProductDTOAndTotalPages.Item2
+                };
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // GET api/<ProductController>/5

@@ -351,3 +351,13 @@ GET {{MembershipPortal.API_HostAddress}}/api/subscription?sortColumn=&sortOrder=
 GET {{MembershipPortal.API_HostAddress}}/api/product?sortColumn=productName&sortOrder=desc
 
 ###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product/paginated?page=1&pageSize=1
+Content-Type: application/json
+
+{
+  "productName" : "",
+  "price" : 0
+}
+
+###
