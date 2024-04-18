@@ -2,6 +2,7 @@
 using MembershipPortal.IRepositories;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.Services
 {
@@ -64,6 +65,10 @@ namespace MembershipPortal.Services
             }
             return false;
         }
+
+       
+
+       
 
         public async Task<GetSubscriberDTO> GetSubscriberAsync(long id)
         {
@@ -182,6 +187,28 @@ namespace MembershipPortal.Services
             }
             return null;
                     
+        }
+
+        public  async Task<(IEnumerable<GetSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber)
+        {
+
+
+            var subscriberListAndTotalPages = await _subscriberRepository.GetAllPaginatedSubscriberAsync(page, pageSize, subscriber);
+
+            var subscriberDTOList = subscriberListAndTotalPages.Item1.Select(subscriber =>
+
+                    new GetSubscriberDTO(
+                          subscriber.Id,
+                           subscriber.FirstName,
+                           subscriber.LastName,
+                           subscriber.ContactNumber,
+                           subscriber.Email,
+                           subscriber.GenderId
+                        )
+                ).ToList();
+            return (subscriberDTOList, subscriberListAndTotalPages.Item2);
+
+
         }
     }
 }

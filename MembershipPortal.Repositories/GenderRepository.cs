@@ -20,6 +20,7 @@ namespace MembershipPortal.IRepositories
             _dbContext = dbContext;
         }
 
+        
         public async Task<IEnumerable<Gender>> SearchAsyncAll(string search)
         {
             var keyword = search.ToLower();
@@ -29,5 +30,27 @@ namespace MembershipPortal.IRepositories
 
             return filterlist;
         }
+
+        public async Task<(IEnumerable<Gender>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender genderObj)
+        {
+            var query = _dbContext.Genders.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(genderObj.GenderName))
+            {
+                query = query.Where(gender => gender.GenderName == genderObj.GenderName);
+            }
+
+
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages);
+
+
+        }
+
+
+
     }
 }

@@ -11,5 +11,7 @@ namespace MembershipPortal.IRepositories
     public interface IGenderRepository : IRepository<Gender>
     {
         Task<IEnumerable<Gender>> SearchAsyncAll(string search);
+        Task<(IEnumerable<Gender>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender gender);
     }
 }
+

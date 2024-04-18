@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.IServices
 {
@@ -21,5 +22,8 @@ namespace MembershipPortal.IServices
         Task<bool> DeleteSubscriberAsync(long id);
 
         Task<IEnumerable<GetSubscriberDTO>> SearchAsyncAll(string search);
+
+         Task<(IEnumerable<GetSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber);
+
     }
 }

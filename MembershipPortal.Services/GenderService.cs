@@ -5,6 +5,7 @@ using MembershipPortal.IServices;
 using MembershipPortal.Models;
 using NuGet.Protocol.Plugins;
 using System.Reflection;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.Services
 {
@@ -53,6 +54,8 @@ namespace MembershipPortal.Services
             }
             return false;
         }
+
+       
 
         public async Task<GetGenderDTO> GetGenderAsync(long id)
         {
@@ -143,7 +146,19 @@ namespace MembershipPortal.Services
             }
             return null;
         }
-        
 
+        public async  Task<(IEnumerable<GetGenderDTO>, int)> GetAllPaginatedGenderAsync(int page, int pageSize, Gender gender)
+        {
+            var genderListAndTotalPages = await _genderRepository.GetAllPaginatedGenderAsync(page, pageSize, gender);
+            var genderDTOList = genderListAndTotalPages.Item1.Select(gender =>
+
+                    new GetGenderDTO(
+                            gender.Id,
+                            gender.GenderName
+                            
+                        )
+                ).ToList();
+            return (genderDTOList, genderListAndTotalPages.Item2);
+        }
     }
 }

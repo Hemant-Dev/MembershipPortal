@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MembershipPortal.DTOs.ProductDTO;
 using static MembershipPortal.DTOs.UserDTO;
 
 namespace MembershipPortal.Services
@@ -215,6 +216,22 @@ namespace MembershipPortal.Services
             return null;
         }
 
+        public async Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User user)
+        {
+            var UserListAndTotalPages = await userRepository.GetAllPaginatedUserAsync(page, pageSize, user);
+            var userDTOList = UserListAndTotalPages.Item1.Select(user =>
 
+                    new GetUserDTO(
+                            user.Id,
+                            user.FirstName,
+                            user.LastName,
+                            user.Email,
+                            user.Password,
+                            user.ContactNumber
+                        )
+                ).ToList();
+            return (userDTOList, UserListAndTotalPages.Item2);
+
+        }
     }
 }

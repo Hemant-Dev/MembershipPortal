@@ -206,7 +206,7 @@ Content-Type: application/json
 
 ###
 
-PUT {{MembershipPortal.API_HostAddress}}/api/subscription/1
+post {{MembershipPortal.API_HostAddress}}/api/subscription/1
 Content-Type: application/json
 
 {
@@ -315,7 +315,7 @@ Content-Type: application/json
 
 ###
 
-GET {{MembershipPortal.API_HostAddress}}/api/Subscription/1
+GET {{MembershipPortal.API_HostAddress}}/api/user/
 
 ###
 
@@ -334,6 +334,84 @@ Content-Type: application/json
 {
   "productName": "",
   "price" : 0
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscription/advancesearch
+Content-Type: application/json
+
+{
+  //GetSubscriptionDTO
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscription/search?filter=string
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user/paginated?page=1&pageSize=2
+Content-Type: application/json
+
+{
+    "Id":0,
+    "firstName": "",
+    "lastName": "",
+    "email": "",
+    "password": "",
+    "contactNumber": ""
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/user/paginated?page=0&pageSize=0
+Content-Type: application/json
+
+{
+  //GetUserDTO
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product/paginated?page=0&pageSize=0
+Content-Type: application/json
+
+{
+  //GetProductDTO
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginated?page=1&pageSize=1
+Content-Type: application/json
+
+{
+  "id": 0,
+    "firstName": "",
+    "lastName": "",
+    "contactNumber": "",
+    "email": "",
+    "genderId": 2
+}
+
+###
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/
+
+POST {{MembershipPortal.API_HostAddress}}/api/subscriber/paginated?page=1&pageSize=1
+Content-Type: application/json
+
+{
+ 
+}
+
+###
+
+POST {{MembershipPortal.API_HostAddress}}/api/gender/paginated?page=2&pageSize=2
+Content-Type: application/json
+
+{
+ "GenderName" :""
 }
 
 ###

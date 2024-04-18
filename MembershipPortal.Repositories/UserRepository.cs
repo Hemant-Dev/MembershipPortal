@@ -58,5 +58,36 @@ namespace MembershipPortal.Repositories
 
             return await query.ToListAsync();
         }
+
+
+        public async Task<(IEnumerable<User>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User userobj)
+        {
+                var query = _dbContext.Users.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(userobj.FirstName))
+            {
+                query = query.Where(user => userobj.FirstName == user.FirstName);
+            }
+            if (!string.IsNullOrWhiteSpace(userobj.LastName))
+            {
+                query = query.Where(user => userobj.LastName == user.LastName);
+            }
+            if (!string.IsNullOrWhiteSpace(userobj.ContactNumber))
+            {
+                query = query.Where(user => userobj.ContactNumber == user.ContactNumber);
+            }
+            if (!string.IsNullOrWhiteSpace(userobj.Email))
+            {
+                query = query.Where(user => userobj.Email == user.Email);
+            }
+
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages); ;
+        }
+
     }
+
 }
