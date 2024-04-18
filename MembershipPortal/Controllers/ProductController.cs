@@ -96,7 +96,6 @@ namespace MembershipPortal.API.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
