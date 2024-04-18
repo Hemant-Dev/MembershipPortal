@@ -21,7 +21,7 @@ namespace MembershipPortal.Repositories
 
         public async Task<IEnumerable<Subscriber>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder)
         {
-            IQueryable<Subscriber> query = _dbContext.Subscribers;
+            IQueryable<Subscriber> query = _dbContext.Subscribers.Include(s => s.Gender);
             if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
             {
                 // Determine the sort order based on sortOrder parameter

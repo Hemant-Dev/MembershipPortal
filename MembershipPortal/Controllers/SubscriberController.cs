@@ -50,7 +50,7 @@ namespace MembershipPortal.API.Controllers
         //        return StatusCode(500, MyException.DataProcessingError(ex.Message));
         //    }
         //}
-        public async Task<ActionResult<IEnumerable<SubscriberWithGenderViewModel>>> Get(string? sortColumn, string? sortOrder)
+        public async Task<ActionResult<IEnumerable<GetSubscriberDTO>>> Get(string? sortColumn, string? sortOrder)
         {
             try
             {

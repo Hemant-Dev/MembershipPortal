@@ -33,7 +33,8 @@ namespace MembershipPortal.Services
                                                         subscriber.LastName,
                                                         subscriber.ContactNumber,
                                                         subscriber.Email,
-                                                        subscriber.GenderId);
+                                                        subscriber.GenderId,
+                                                        subscriber.Gender.GenderName);
 
                 return getSubscriber;
             }
@@ -79,7 +80,7 @@ namespace MembershipPortal.Services
                                                         subscriber.LastName,
                                                         subscriber.ContactNumber,
                                                         subscriber.Email,
-                                                        subscriber.GenderId);
+                                                        subscriber.GenderId, subscriber.Gender.GenderName);
                     return getSubscriber;
                 }
 
@@ -128,7 +129,7 @@ namespace MembershipPortal.Services
                                                                                 subscriber.LastName,
                                                                                 subscriber.ContactNumber,
                                                                                 subscriber.Email,
-                                                                                subscriber.GenderId));
+                                                                                subscriber.GenderId, subscriber.Gender.GenderName));
                     return subscribersDto;
                 }
             }
@@ -161,7 +162,7 @@ namespace MembershipPortal.Services
                                             subscriber.LastName,
                                             subscriber.ContactNumber,
                                             subscriber.Email,
-                                            subscriber.GenderId);
+                                            subscriber.GenderId, subscriber.Gender.GenderName);
 
                     return subscriberDto;
                 }
@@ -183,7 +184,7 @@ namespace MembershipPortal.Services
                 if (sortedSubscribersList != null)
                 {
                     var sortedSubscribersDTOList = sortedSubscribersList.Select(subscribers => new GetSubscriberDTO(
-                            subscribers.Id, subscribers.FirstName, subscribers.LastName, subscribers.ContactNumber, subscribers.Email, subscribers.GenderId
+                            subscribers.Id, subscribers.FirstName, subscribers.LastName, subscribers.ContactNumber, subscribers.Email, subscribers.GenderId, subscribers.Gender.GenderName
                         ))
                         .ToList();
                     return sortedSubscribersDTOList;
