@@ -11,6 +11,8 @@ namespace MembershipPortal.IRepositories
     {
         Task<IEnumerable<Subscriber>> SearchAsyncAll(string search);
         Task<IEnumerable<SubscriberWithGenderViewModel>> GetAllSubscriberDataAsync();
+        Task<Subscriber> UpdateSubsciberDataAsync(long id, Subscriber subscriber);
+        Task<Subscriber> GetSubscriberByIdAsync(long id);
         Task<IEnumerable<Subscriber>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder);
     }
 }

@@ -74,6 +74,14 @@ namespace MembershipPortal.Repositories
             return subscriberList != null ? subscriberList : null;
         }
 
+        public async Task<Subscriber> GetSubscriberByIdAsync(long id)
+        {
+            var subscriber = await _dbContext.Subscribers
+                                  .Include(s => s.Gender)  // Include the Gender navigation property
+                                  .FirstOrDefaultAsync(s => s.Id == id);
+            return subscriber;
+        }
+
         public async Task<IEnumerable<Subscriber>> SearchAsyncAll(string search)
         {
             var keyword = search.ToLower();
@@ -88,5 +96,21 @@ namespace MembershipPortal.Repositories
 
             return subscriber;
         }
+
+        public async Task<Subscriber> UpdateSubsciberDataAsync(long id, Subscriber subscriber)
+        {
+
+
+            _dbContext.Subscribers.Update(subscriber);
+            await _dbContext.SaveChangesAsync();
+
+            var subscriberData = await _dbContext.Subscribers
+                                .Include(s => s.Gender)
+                                .FirstOrDefaultAsync(s => s.Id == id);
+
+
+            return subscriberData;
+        }
+
     }
 }

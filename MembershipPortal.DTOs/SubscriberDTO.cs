@@ -30,7 +30,7 @@ namespace MembershipPortal.DTOs
                                         string ContactNumber,
                                         string Email,
                                         long GenderId,
-                                        string GenderName
+                                        string? GenderName
         );
 
 }

@@ -34,17 +34,17 @@ namespace MembershipPortal.Services
                                                         subscriber.ContactNumber,
                                                         subscriber.Email,
                                                         subscriber.GenderId,
-                                                        subscriber.Gender.GenderName);
+                                                        null);
 
                 return getSubscriber;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Console.WriteLine($"Error occurred in CreateSubscriberAsync: {ex.Message}");
                 throw;
 
             }
-            return null;
+
         }
 
         public async Task<bool> DeleteSubscriberAsync(long id)
@@ -70,7 +70,7 @@ namespace MembershipPortal.Services
         {
             try
             {
-                var subscriber = await _subscriberRepository.GetAsyncById(id);
+                var subscriber = await _subscriberRepository.GetSubscriberByIdAsync(id);
 
                 if(subscriber != null)
                 {
@@ -80,7 +80,9 @@ namespace MembershipPortal.Services
                                                         subscriber.LastName,
                                                         subscriber.ContactNumber,
                                                         subscriber.Email,
-                                                        subscriber.GenderId, subscriber.Gender.GenderName);
+                                                        subscriber.GenderId,
+                                                        subscriber.Gender.GenderName
+                                                        );
                     return getSubscriber;
                 }
 
@@ -144,7 +146,7 @@ namespace MembershipPortal.Services
         {
             try
             {
-                var oldSubscriber = await _subscriberRepository.GetAsyncById(id);
+                var oldSubscriber = await _subscriberRepository.GetSubscriberByIdAsync(id);
 
                 if (oldSubscriber != null)
                 {
@@ -154,7 +156,7 @@ namespace MembershipPortal.Services
                     oldSubscriber.Email = subscriberDTO.Email;
                     oldSubscriber.GenderId = subscriberDTO.GenderId;
 
-                    var subscriber = await _subscriberRepository.UpdateAsync(oldSubscriber);
+                    var subscriber = await _subscriberRepository.UpdateSubsciberDataAsync(id, oldSubscriber);
 
                     var subscriberDto = new GetSubscriberDTO
                                         (subscriber.Id,
@@ -167,7 +169,7 @@ namespace MembershipPortal.Services
                     return subscriberDto;
                 }
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 //Console.WriteLine($"Error occurred in UpdateSubscriberAsync: {ex.Message}");
                 throw;
