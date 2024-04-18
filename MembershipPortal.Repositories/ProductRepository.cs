@@ -62,7 +62,8 @@ namespace MembershipPortal.Repositories
 
             if (!string.IsNullOrWhiteSpace(productObj.ProductName))
             {
-                query = query.Where(product => product.ProductName == productObj.ProductName);
+                query = query.Where(product => product.ProductName.Contains(productObj.ProductName));
+
             }
             if (productObj.Price > 0)
             {
