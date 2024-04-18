@@ -327,3 +327,13 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{MembershipPortal.API_HostAddress}}/api/product/paginated?page=2&pageSize=1
+Content-Type: application/json
+
+{
+  "productName": "",
+  "price" : 0
+}
+
+###

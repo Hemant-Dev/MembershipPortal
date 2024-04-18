@@ -52,6 +52,29 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
 
         }
-    
+
+        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product productObj)
+        {
+
+            var query = _dbContext.Products.AsQueryable();
+
+
+
+            if (!string.IsNullOrWhiteSpace(productObj.ProductName))
+            {
+                query = query.Where(product => product.ProductName == productObj.ProductName);
+            }
+            if (productObj.Price > 0)
+            {
+                query = query.Where(product => product.Price == productObj.Price);
+            }
+
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages);
+        }
+
     }
 }

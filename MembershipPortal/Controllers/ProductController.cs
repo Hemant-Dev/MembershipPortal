@@ -177,5 +177,29 @@ namespace MembershipPortal.API.Controllers
 
             }
         }
+
+        [HttpPost("paginated")]
+        public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize, [FromBody] GetProductDTO product)
+        {
+            try
+            {
+                var paginatedProductDTOAndTotalPages = await _productService.GetAllPaginatedProductAsync(page, pageSize, new Product()
+                {
+                    ProductName = product.ProductName,
+                    Price = product.Price
+                });
+                var result = new Paginated<GetProductDTO>
+                {
+                    dataArray = paginatedProductDTOAndTotalPages.Item1,
+                    totalPages = paginatedProductDTOAndTotalPages.Item2
+                };
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

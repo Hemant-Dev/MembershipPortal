@@ -14,5 +14,7 @@ namespace MembershipPortal.IRepositories
         Task<IEnumerable<Product>> GetProductSearchAsync(String find);
 
         Task<IEnumerable<Product>> GetProductAdvanceSearchAsync(Product productobj);
+
+        Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product product);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MembershipPortal.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace MembershipPortal.IServices
         public Task<IEnumerable<GetProductDTO>> GetProductSearchAsync(string find);
 
         public Task<IEnumerable<GetProductDTO>> GetProductAdvanceSearchAsync(GetProductDTO getProductDTO);
+
+        public Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product product);
 
     }
 }
