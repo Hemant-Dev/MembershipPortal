@@ -11,5 +11,6 @@ namespace MembershipPortal.IRepositories
     public interface IGenderRepository : IRepository<Gender>
     {
         Task<IEnumerable<Gender>> SearchAsyncAll(string search);
+        Task<IEnumerable<Gender>> GetAllSortedGender(string? sortColumn, string? sortOrder);
     }
 }

@@ -9,6 +9,6 @@ namespace MembershipPortal.IRepositories
 {
     public interface IDiscountRepository : IRepository<Discount>
     {
-
+        Task<IEnumerable<Discount>> GetAllSortedDiscount(string? sortColumn, string? sortOrder);
     }
 }

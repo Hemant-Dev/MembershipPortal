@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.API.ErrorHandling;
+using MembershipPortal.Services;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.API.Controllers
 {
@@ -20,20 +22,36 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/Discount
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetDiscountDTO>>> GetDiscountsAsyc()
+        //public async Task<ActionResult<IEnumerable<GetDiscountDTO>>> GetDiscountsAsyc()
+        //{
+        //    try
+        //    {
+        //        var discoutDTOList = await _discountService.GetDiscountsAsync();
+        //        if (discoutDTOList != null)
+        //        {
+        //            return Ok(discoutDTOList);
+        //        }
+        //        return NotFound();
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
+        public async Task<ActionResult<IEnumerable<GetDiscountDTO>>> Get(string? sortColumn, string? sortOrder)
         {
             try
             {
-                var discoutDTOList = await _discountService.GetDiscountsAsync();
-                if (discoutDTOList != null)
+                var getDiscountsDTOList = await _discountService.GetAllSortedDiscounts(sortColumn, sortOrder);
+                if (getDiscountsDTOList != null)
                 {
-                    return Ok(discoutDTOList);
+                    return Ok(getDiscountsDTOList);
                 }
                 return NotFound();
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.Services
 {
@@ -51,6 +52,27 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
                // Console.WriteLine($"Error occurred in DeleteDiscountAsync: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<GetDiscountDTO>> GetAllSortedDiscounts(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var sortedDiscountsList = await _discountRepository.GetAllSortedDiscount(sortColumn, sortOrder);
+                if (sortedDiscountsList != null)
+                {
+                    var sortedDiscountsDTOList = sortedDiscountsList
+                        .Select(discount => new GetDiscountDTO(discount.Id, discount.DiscountCode, discount.DiscountAmount, discount.IsDiscountInPercentage)
+                    ).ToList();
+                    return sortedDiscountsDTOList;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

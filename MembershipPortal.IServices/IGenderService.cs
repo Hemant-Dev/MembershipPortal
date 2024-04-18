@@ -18,5 +18,6 @@ namespace MembershipPortal.IServices
         Task<bool> DeleteGenderAsync(long id);
 
         Task<IEnumerable<GetGenderDTO>> SearchGendersAsync(string search);
+        Task<IEnumerable<GetGenderDTO>> GetAllSortedGender(string? sortColumn, string? sortOrder);
     }
 }

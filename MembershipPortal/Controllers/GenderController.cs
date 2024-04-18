@@ -2,6 +2,7 @@
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
 using MembershipPortal.Models;
+using MembershipPortal.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
@@ -24,30 +25,37 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/<GenderController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetGenderDTO>>> Get()
+        //public async Task<ActionResult<IEnumerable<GetGenderDTO>>> Get()
+        //{
+        //    try{
+        //        var genders = await _genderService.GetGendersAsync();
+        //        if(genders != null)
+        //        {
+        //            return Ok(genders);
+        //        }
+        //        return NotFound();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return StatusCode(500, MyException.DataProcessingError(ex.Message));
+        //    }
+        //}
+        public async Task<ActionResult<IEnumerable<GetGenderDTO>>> Get(string? sortColumn, string? sortOrder)
         {
-            try{
-                var genders = await _genderService.GetGendersAsync();
-                if(genders != null)
+            try
+            {
+                var getGendersDTOList = await _genderService.GetAllSortedGender(sortColumn, sortOrder);
+                if (getGendersDTOList != null)
                 {
-                    return Ok(genders);
+                    return Ok(getGendersDTOList);
                 }
                 return NotFound();
-                //if(genders.Count() != 0)
-                //{
-                  
-                //     return Ok(genders);
-                //}
-                //else
-                //{
-                //    return NotFound(MyException.DataNotFound(tableName));
-                //}
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
         }
         [HttpGet("search")]

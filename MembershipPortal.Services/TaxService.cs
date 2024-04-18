@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.Services
 {
@@ -51,6 +52,27 @@ namespace MembershipPortal.Services
             catch (Exception ex)
             {
               //  Console.WriteLine($"Error occurred in DeleteTaxAsync: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<GetTaxDTO>> GetAllSortedTax(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var sortedTaxesList = await _taxRepository.GetAllSortedTax(sortColumn, sortOrder);
+                if (sortedTaxesList != null)
+                {
+                    var sortedTaxesDTOList = sortedTaxesList
+                        .Select(tax => new GetTaxDTO(tax.Id, tax.CGST, tax.SGST, tax.TotalTax)
+                    ).ToList();
+                    return sortedTaxesDTOList;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

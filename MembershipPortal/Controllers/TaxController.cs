@@ -11,6 +11,8 @@ using MembershipPortal.IServices;
 using MembershipPortal.DTOs;
 using MembershipPortal.API.ErrorHandling;
 using Microsoft.AspNetCore.Http.HttpResults;
+using MembershipPortal.Services;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.API.Controllers
 {
@@ -28,27 +30,43 @@ namespace MembershipPortal.API.Controllers
 
         // GET: api/Tax
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetTaxDTO>>> GetTaxesAsync()
+        //public async Task<ActionResult<IEnumerable<GetTaxDTO>>> GetTaxesAsync()
+        //{
+        //    try
+        //    {
+        //        var taxDTOList = await _taxService.GetTaxesAsync();
+        //        if(taxDTOList != null)
+        //        {
+        //            return Ok(taxDTOList);
+        //        }
+        //        return NotFound();
+        //        //if (taxDTOList.Count() != 0)
+        //        //{
+        //        //    return Ok(taxDTOList);
+
+        //        //}
+        //        //return NotFound(MyException.DataNotFound(tableName));
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return StatusCode(500, MyException.DataProcessingError(ex.Message));
+        //    }
+        //}
+        public async Task<ActionResult<IEnumerable<GetTaxDTO>>> Get(string? sortColumn, string? sortOrder)
         {
             try
             {
-                var taxDTOList = await _taxService.GetTaxesAsync();
-                if(taxDTOList != null)
+                var getTaxesDTOList = await _taxService.GetAllSortedTax(sortColumn, sortOrder);
+                if (getTaxesDTOList != null)
                 {
-                    return Ok(taxDTOList);
+                    return Ok(getTaxesDTOList);
                 }
                 return NotFound();
-                //if (taxDTOList.Count() != 0)
-                //{
-                //    return Ok(taxDTOList);
-
-                //}
-                //return NotFound(MyException.DataNotFound(tableName));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                return StatusCode(500, MyException.DataProcessingError(ex.Message));
+                throw;
             }
         }
 

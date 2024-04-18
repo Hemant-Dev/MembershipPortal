@@ -54,6 +54,26 @@ namespace MembershipPortal.Services
             return false;
         }
 
+        public async Task<IEnumerable<GetGenderDTO>> GetAllSortedGender(string? sortColumn, string? sortOrder)
+        {
+            try
+            {
+                var sortedGendersList = await _genderRepository.GetAllSortedGender(sortColumn, sortOrder);
+                if (sortedGendersList != null)
+                {
+                    var sortedGendersDTOList = sortedGendersList
+                        .Select(gender => new GetGenderDTO(gender.Id, gender.GenderName)
+                    ).ToList();
+                    return sortedGendersDTOList;
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<GetGenderDTO> GetGenderAsync(long id)
         {
             try

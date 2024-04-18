@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.IServices
 {
@@ -14,5 +15,7 @@ namespace MembershipPortal.IServices
         Task<GetDiscountDTO> CreateDiscountAsync(CreateDiscountDTO discountDTO);
         Task<GetDiscountDTO> UpdateDiscountAsync(long Id, UpdateDiscountDTO discoutDTO);
         Task<bool> DeleteDiscountAsync(long Id);
+
+        Task<IEnumerable<GetDiscountDTO>> GetAllSortedDiscounts(string? sortColumn, string? sortOrder);
     }
 }

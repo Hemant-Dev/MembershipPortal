@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MembershipPortal.DTOs.ProductDTO;
 
 namespace MembershipPortal.IServices
 {
@@ -14,5 +15,7 @@ namespace MembershipPortal.IServices
         Task<GetTaxDTO> CreateTaxAsync(CreateTaxDTO taxDTO);
         Task<GetTaxDTO> UpdateTaxAsync(long Id, UpdateTaxDTO taxDTO);
         Task<bool> DeleteTaxAsync(long Id);
+
+        Task<IEnumerable<GetTaxDTO>> GetAllSortedTax(string? sortColumn, string? sortOrder);
     }
 }
