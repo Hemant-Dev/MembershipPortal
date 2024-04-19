@@ -26,7 +26,7 @@ namespace MembershipPortal.Repositories
             {
                 query = query.Where(discount => discount.DiscountCode.Contains(discountObj.DiscountCode));
             }
-            if (discountObj.DiscountAmount >= 0)
+            if (discountObj.DiscountAmount > 0)
             {
                 query = query.Where(discount => discount.DiscountAmount == discountObj.DiscountAmount);
             }
