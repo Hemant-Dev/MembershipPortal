@@ -19,5 +19,6 @@ namespace MembershipPortal.IRepositories
         Task<IEnumerable<Subscription>> GetAllSearchSubscriptionsAsync(string filter);
         Task<IEnumerable<Subscription>> GetAllAdvanceSearchSubscriptionsAsync(Subscription subscriptionObj);
         Task<IEnumerable<Subscription>> GetAllSortedSubscriptions(string? sortName, string? sortOrder);
+        Task<(IEnumerable<Subscription>, int)> GetAllPaginatedSubscriptionsAsync(int page, int pageSize, Subscription subscription);
     }
 }

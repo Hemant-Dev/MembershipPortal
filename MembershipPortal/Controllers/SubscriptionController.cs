@@ -1,6 +1,7 @@
 ﻿using MembershipPortal.API.ErrorHandling;
 using MembershipPortal.DTOs;
 using MembershipPortal.IServices;
+using MembershipPortal.Models;
 using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 using static MembershipPortal.DTOs.UserDTO;
@@ -170,6 +171,43 @@ namespace MembershipPortal.API.Controllers
             {
                 return StatusCode(500, $"An error occurred while retrieving Advance search Subscription info : {ex.Message}");
 
+            }
+        }
+
+        [HttpPost("paginated")]
+        public async Task<ActionResult<Paginated<GetSubscriptionDTO>>> GetPaginatedUserData(int page, int pageSize, [FromBody] GetSubscriptionDTO subscription)
+        {
+            try
+            {
+                var paginatedSubscriptionDTOAndTotalPages = await _subscriptionService.GetAllPaginatedSubscriptionAsync(page, pageSize, new Subscription()
+                {
+                    SubscriberId = subscription.SubscriberId,
+                    ProductId = subscription.ProductId,
+                    ProductName = subscription.ProductName,
+                    ProductPrice = subscription.ProductPrice,
+                    DiscountId = subscription.DiscountId,
+                    DiscountCode = subscription.DiscountCode,
+                    DiscountAmount = subscription.DiscountAmount,
+                    TaxId = subscription.TaxId,
+                    CGST = subscription.CGST,
+                    SGST = subscription.SGST,
+                    TotalTaxPercentage = subscription.TotalTaxPercentage,
+                    StartDate = subscription.StartDate,
+                    ExpiryDate = subscription.ExpiryDate,
+                    PriceAfterDiscount = subscription.PriceAfterDiscount,
+                    TaxAmount = subscription.TaxAmount,
+                    FinalAmount = subscription.FinalAmount
+                });
+                var result = new Paginated<GetSubscriptionDTO>
+                {
+                    dataArray = paginatedSubscriptionDTOAndTotalPages.Item1,
+                    totalPages = paginatedSubscriptionDTOAndTotalPages.Item2
+                };
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

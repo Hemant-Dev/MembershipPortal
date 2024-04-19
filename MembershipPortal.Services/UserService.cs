@@ -65,15 +65,15 @@ namespace MembershipPortal.Services
                     return true;
 
                 }
+                return false;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Console.WriteLine(ex.Message);
                 throw;
 
             }
-            return false;
         }
 
 
@@ -94,6 +94,7 @@ namespace MembershipPortal.Services
                          user.ContactNumber
                          );
                 }
+                return null;
             }
             catch (Exception)
             {
@@ -101,7 +102,6 @@ namespace MembershipPortal.Services
                 //Console.WriteLine(ex.Message);
                 throw;
             }
-            return null;
         }
 
         public async Task<IEnumerable<GetUserDTO>> GetUsersAsync()

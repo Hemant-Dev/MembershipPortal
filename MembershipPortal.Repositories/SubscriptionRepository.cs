@@ -32,22 +32,23 @@ namespace MembershipPortal.Repositories
             var subscriptionDTOList = getSubscription.Select(
                 subscription =>
                         new GetSubscriptionDTO(subscription.Id,
-                                               subscription.SubscriberId,
-                                               subscription.ProductId,
-                                               subscription.Product.ProductName,
-                                               subscription.Product.Price,
-                                               subscription.DiscountId,
-                                               subscription.Discount.DiscountCode,
-                                               subscription.DiscountAmount,
-                                               subscription.StartDate,
-                                               subscription.ExpiryDate,
-                                               subscription.PriceAfterDiscount,
-                                               subscription.TaxId,
-                                               subscription.Tax.CGST,
-                                               subscription.Tax.SGST,
-                                               subscription.Tax.TotalTax,
-                                               subscription.TaxAmount,
-                                               subscription.FinalAmount));
+                                                                                       subscription.SubscriberId,
+                                                                                       subscription.ProductId,
+                                                                                       subscription.Product.ProductName,
+                                                                                       subscription.Product.Price,
+                                                                                       subscription.DiscountId,
+                                                                                       subscription.Discount.DiscountCode,
+                                                                                       subscription.DiscountAmount,
+                                                                                       subscription.StartDate,
+                                                                                       subscription.ExpiryDate,
+                                                                                       subscription.PriceAfterDiscount,
+
+                  subscription.TaxId,
+                  subscription.Tax.CGST,
+                  subscription.Tax.SGST, 
+                  subscription.Tax.TotalTax,
+                                                                                       subscription.TaxAmount,
+                                                                                       subscription.FinalAmount));
 
             return subscriptionDTOList;
         }
@@ -367,6 +368,80 @@ namespace MembershipPortal.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        public async Task<(IEnumerable<Subscription>, int)> GetAllPaginatedSubscriptionsAsync(int page, int pageSize, Subscription subscriptionObj)
+        {
+            var query = _dbContext.Subscriptions
+                .Include(s => s.Subscriber)
+                .Include(g => g.Subscriber.Gender)
+                .Include(p => p.Product)
+                .Include(d => d.Discount)
+                .Include(t => t.Tax)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.Subscriber.FirstName))
+            {
+                query = query.Where(subscription => subscription.Subscriber.FirstName.Contains(subscriptionObj.Subscriber.FirstName));
+                
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.Subscriber.LastName))
+            {
+                query = query.Where(subscription => subscription.Subscriber.LastName.Contains(subscriptionObj.Subscriber.LastName));
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.ProductName))
+            {
+                query = query.Where(subscription => subscription.ProductName.Contains(subscriptionObj.ProductName));
+            }
+            if (subscriptionObj.ProductPrice >= 0)
+            {
+                query = query.Where(subscription => subscription.ProductPrice == subscriptionObj.ProductPrice);
+            }
+            if (!string.IsNullOrWhiteSpace(subscriptionObj.DiscountCode))
+            {
+                query = query.Where(subscription => subscription.DiscountCode.Contains(subscriptionObj.DiscountCode));
+            }
+            if(subscriptionObj.DiscountAmount >= 0)
+            {
+                query = query.Where(subscription => subscription.DiscountAmount == subscriptionObj.DiscountAmount);
+            }
+            if (subscriptionObj.CGST >= 0)
+            {
+                query = query.Where(subscription => subscription.CGST == subscriptionObj.CGST);
+            }
+            if (subscriptionObj.SGST >= 0)
+            {
+                query = query.Where(subscription => subscription.SGST == subscriptionObj.SGST);
+            }
+            if (subscriptionObj.TotalTaxPercentage >= 0)
+            {
+                query = query.Where(subscription => subscription.TotalTaxPercentage == subscriptionObj.TotalTaxPercentage);
+            }
+            if (subscriptionObj.PriceAfterDiscount >= 0)
+            {
+                query = query.Where(subscription => subscription.PriceAfterDiscount == subscriptionObj.PriceAfterDiscount);
+            }
+            if (subscriptionObj.TaxAmount >= 0)
+            {
+                query = query.Where(subscription => subscription.TaxAmount == subscriptionObj.TaxAmount);
+            }
+            if (subscriptionObj.FinalAmount >= 0)
+            {
+                query = query.Where(subscription => subscription.FinalAmount== subscriptionObj.FinalAmount);
+            }
+            if (!string.IsNullOrEmpty(subscriptionObj.StartDate.ToString()))
+            {
+                query = query.Where(subscription => subscription.StartDate == subscriptionObj.StartDate);
+            }
+            if (!string.IsNullOrEmpty(subscriptionObj.ExpiryDate.ToString()))
+            {
+                query = query.Where(subscription => subscription.ExpiryDate == subscriptionObj.ExpiryDate);
+            }
+            int totalCount = query.Count();
+            int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
+
+            query = query.Skip((page - 1) * pageSize).Take(pageSize);
+            return (await query.ToListAsync(), totalPages);
         }
     }
 }
