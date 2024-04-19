@@ -33,7 +33,7 @@ namespace MembershipPortal.Models
         public decimal ProductPrice { get; set; }
 
         [ForeignKey(nameof(Discount))]
-        public long DiscountId { get; set; } = 1;
+        public long DiscountId { get; set; }
         public virtual Discount Discount { get; set; }
         public string DiscountCode { get; set; }
         public decimal DiscountAmount { get; set; }

@@ -204,15 +204,16 @@ namespace MembershipPortal.Services
             var subscriberListAndTotalPages = await _subscriberRepository.GetAllPaginatedSubscriberAsync(page, pageSize, subscriber);
             var userDTOList = subscriberListAndTotalPages.Item1.Select(subscriber =>
 
-                    new GetSubscriberDTO(
+                    new GetSubscriberDTO
+                    (
                             subscriber.Id,
                             subscriber.FirstName,
                             subscriber.LastName,
                             subscriber.Email,
                             subscriber.ContactNumber,
                             subscriber.GenderId,
-                            null
-                        )
+                            subscriber.Gender.GenderName
+                    )
                 ).ToList();
             return (userDTOList, subscriberListAndTotalPages.Item2);
         }

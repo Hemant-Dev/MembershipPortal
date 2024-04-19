@@ -194,8 +194,8 @@ namespace MembershipPortal.API.Controllers
                     CGST = subscription.CGST,
                     SGST = subscription.SGST,
                     TotalTaxPercentage = subscription.TotalTaxPercentage,
-                    StartDate = subscription.StartDate,
-                    ExpiryDate = subscription.ExpiryDate,
+                    StartDate = String.IsNullOrEmpty(subscription.StartDate.ToString()) ? DateOnly.MinValue : (DateOnly)subscription.StartDate,
+                    ExpiryDate = String.IsNullOrEmpty(subscription.ExpiryDate.ToString()) ? DateOnly.MinValue : (DateOnly)subscription.ExpiryDate,
                     PriceAfterDiscount = subscription.PriceAfterDiscount,
                     TaxAmount = subscription.TaxAmount,
                     FinalAmount = subscription.FinalAmount
@@ -241,12 +241,12 @@ namespace MembershipPortal.API.Controllers
                         case "finalamount":
                             result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.FinalAmount) : result.dataArray.OrderByDescending(s => s.FinalAmount);
                             break;
-                        case "startdate":
-                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.StartDate) : result.dataArray.OrderByDescending(s => s.StartDate);
-                            break;
-                        case "expirydate":
-                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.ExpiryDate) : result.dataArray.OrderByDescending(s => s.ExpiryDate);
-                            break;
+                        //case "startdate":
+                        //    result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.StartDate) : result.dataArray.OrderByDescending(s => s.StartDate);
+                        //    break;
+                        //case "expirydate":
+                        //    result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.ExpiryDate) : result.dataArray.OrderByDescending(s => s.ExpiryDate);
+                        //    break;
                         default:
                             result.dataArray = result.dataArray.OrderBy(s => s.Id);
                             break;

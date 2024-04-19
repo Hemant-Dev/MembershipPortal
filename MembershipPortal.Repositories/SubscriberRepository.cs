@@ -21,7 +21,7 @@ namespace MembershipPortal.Repositories
 
         public async Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriberObj)
         {
-            var query = _dbContext.Subscribers.AsQueryable();
+            var query = _dbContext.Subscribers.Include(g => g.Gender).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(subscriberObj.FirstName))
             {
