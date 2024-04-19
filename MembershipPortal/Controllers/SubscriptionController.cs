@@ -4,7 +4,9 @@ using MembershipPortal.IServices;
 using MembershipPortal.Models;
 using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using static MembershipPortal.DTOs.UserDTO;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -175,7 +177,7 @@ namespace MembershipPortal.API.Controllers
         }
 
         [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetSubscriptionDTO>>> GetPaginatedUserData(int page, int pageSize, [FromBody] GetSubscriptionDTO subscription)
+        public async Task<ActionResult<Paginated<GetSubscriptionDTO>>> GetPaginatedUserData(string? sortColumn, string? sortOrder, int page, int pageSize, [FromBody] GetSubscriptionDTO subscription)
         {
             try
             {
@@ -203,6 +205,54 @@ namespace MembershipPortal.API.Controllers
                     dataArray = paginatedSubscriptionDTOAndTotalPages.Item1,
                     totalPages = paginatedSubscriptionDTOAndTotalPages.Item2
                 };
+                if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+                {
+                    // Determine the sort order based on sortOrder parameter
+                    bool isAscending = sortOrder.ToLower() == "asc";
+                    switch (sortColumn.ToLower())
+                    {
+                        case "productname":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.ProductName) : result.dataArray.OrderByDescending(s => s.ProductName);
+                            break;
+                        case "productprice":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.ProductPrice) : result.dataArray.OrderByDescending(s => s.ProductPrice);
+                            break;
+                        case "discountcode":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.DiscountCode) : result.dataArray.OrderByDescending(s => s.DiscountCode);
+                            break;
+                        case "discountamount":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.DiscountAmount) : result.dataArray.OrderByDescending(s => s.DiscountAmount);
+                            break;
+                        case "priceafterdiscount":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.PriceAfterDiscount) : result.dataArray.OrderByDescending(s => s.PriceAfterDiscount);
+                            break;
+                        case "cgst":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.CGST) : result.dataArray.OrderByDescending(s => s.CGST);
+                            break;
+                        case "sgst":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.SGST) : result.dataArray.OrderByDescending(s => s.SGST);
+                            break;
+                        case "totaltaxpercentage":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.TotalTaxPercentage) : result.dataArray.OrderByDescending(s => s.TotalTaxPercentage);
+                            break;
+                        case "taxamount":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.TaxAmount) : result.dataArray.OrderByDescending(s => s.TaxAmount);
+                            break;
+                        case "finalamount":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.FinalAmount) : result.dataArray.OrderByDescending(s => s.FinalAmount);
+                            break;
+                        case "startdate":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.StartDate) : result.dataArray.OrderByDescending(s => s.StartDate);
+                            break;
+                        case "expirydate":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.ExpiryDate) : result.dataArray.OrderByDescending(s => s.ExpiryDate);
+                            break;
+                        default:
+                            result.dataArray = result.dataArray.OrderBy(s => s.Id);
+                            break;
+                    }
+
+                }
                 return Ok(result);
             }
             catch (Exception)

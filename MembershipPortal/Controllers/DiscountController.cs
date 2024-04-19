@@ -7,6 +7,8 @@ using MembershipPortal.Services;
 using static MembershipPortal.DTOs.ProductDTO;
 using MembershipPortal.Models;
 using static MembershipPortal.DTOs.UserDTO;
+using Microsoft.Data.SqlClient;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace MembershipPortal.API.Controllers
 {
@@ -147,7 +149,7 @@ namespace MembershipPortal.API.Controllers
         }
 
         [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetDiscountDTO>>> GetPaginatedUserData(int page, int pageSize, [FromBody] GetDiscountDTO discount)
+        public async Task<ActionResult<Paginated<GetDiscountDTO>>> GetPaginatedUserData(string? sortColumn, string? sortOrder, int page, int pageSize, [FromBody] GetDiscountDTO discount)
         {
             try
             {
@@ -162,6 +164,24 @@ namespace MembershipPortal.API.Controllers
                     dataArray = paginatedDiscountDTOAndTotalPages.Item1,
                     totalPages = paginatedDiscountDTOAndTotalPages.Item2
                 };
+                if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+                {
+                    // Determine the sort order based on sortOrder parameter
+                    bool isAscending = sortOrder.ToLower() == "asc";
+                    switch (sortColumn.ToLower())
+                    {
+                        case "discountcode":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.DiscountCode) : result.dataArray.OrderByDescending(s => s.DiscountCode);
+                            break;
+                        case "discountamount":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.DiscountAmount) : result.dataArray.OrderByDescending(s => s.DiscountAmount);
+                            break;
+                        default:
+                            result.dataArray = result.dataArray.OrderBy(s => s.Id);
+                            break;
+                    }
+
+                }
                 return Ok(result);
             }
             catch (Exception)

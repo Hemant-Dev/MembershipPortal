@@ -6,6 +6,7 @@ using MembershipPortal.Services;
 using Microsoft.AspNetCore.Mvc;
 using static MembershipPortal.DTOs.ProductDTO;
 using static MembershipPortal.DTOs.UserDTO;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -78,7 +79,7 @@ namespace MembershipPortal.API.Controllers
         //    return Ok(result);
         //}
         [HttpPost("paginated")]
-        public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(int page, int pageSize,[FromBody] GetProductDTO product)
+        public async Task<ActionResult<Paginated<GetProductDTO>>> GetPaginatedProductData(string? sortColumn, string? sortOrder, int page, int pageSize,[FromBody] GetProductDTO product)
         {
             try
             {
@@ -92,6 +93,25 @@ namespace MembershipPortal.API.Controllers
                     dataArray = paginatedProductDTOAndTotalPages.Item1,
                     totalPages = paginatedProductDTOAndTotalPages.Item2
                 };
+
+                if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+                {
+                    // Determine the sort order based on sortOrder parameter
+                    bool isAscending = sortOrder.ToLower() == "asc";
+                    switch (sortColumn.ToLower())
+                    {
+                        case "productname":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.ProductName) : result.dataArray.OrderByDescending(s => s.ProductName);
+                            break;
+                        case "price":
+                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.Price) : result.dataArray.OrderByDescending(s => s.Price);
+                            break;
+                        default:
+                            result.dataArray = result.dataArray.OrderBy(s => s.Id);
+                            break;
+                    }
+
+                }
                 return Ok(result);
             }
             catch (Exception)
