@@ -374,7 +374,14 @@ namespace MembershipPortal.Repositories
         {
             var query = _dbContext.Subscriptions.AsQueryable();
 
-            
+            if(subscriptionObj.SubscriberId > 0)
+            {
+                query = query.Where(s => s.SubscriberId == subscriptionObj.SubscriberId);
+            }
+            if(subscriptionObj.ProductId > 0)
+            {
+                query = query.Where(s => s.ProductId == subscriptionObj.ProductId);
+            }
             if (!string.IsNullOrWhiteSpace(subscriptionObj.ProductName))
             {
                 query = query.Where(subscription => subscription.ProductName.Contains(subscriptionObj.ProductName));
@@ -415,11 +422,11 @@ namespace MembershipPortal.Repositories
             {
                 query = query.Where(subscription => subscription.FinalAmount== subscriptionObj.FinalAmount);
             }
-            if (!string.IsNullOrEmpty(subscriptionObj.StartDate.ToString()))
+            if (!string.IsNullOrEmpty(subscriptionObj.StartDate.ToString()) && subscriptionObj.StartDate != DateOnly.MinValue)
             {
                 query = query.Where(subscription => subscription.StartDate == subscriptionObj.StartDate);
             }
-            if (!string.IsNullOrEmpty(subscriptionObj.ExpiryDate.ToString()))
+            if (!string.IsNullOrEmpty(subscriptionObj.ExpiryDate.ToString()) && subscriptionObj.ExpiryDate != DateOnly.MinValue)
             {
                 query = query.Where(subscription => subscription.ExpiryDate == subscriptionObj.ExpiryDate);
             }

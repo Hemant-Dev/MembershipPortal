@@ -39,7 +39,7 @@ namespace MembershipPortal.DTOs
             long ProductId, string ProductName,
             decimal ProductPrice, long DiscountId, 
             string DiscountCode, decimal DiscountAmount,
-            DateOnly? StartDate, DateOnly ExpiryDate,
+            DateOnly? StartDate, DateOnly? ExpiryDate,
             decimal PriceAfterDiscount,long TaxId, 
             decimal CGST, decimal SGST, 
             decimal TotalTaxPercentage, decimal TaxAmount,

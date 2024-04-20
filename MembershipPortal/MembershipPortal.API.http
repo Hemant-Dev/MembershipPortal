@@ -2,27 +2,43 @@
 
 
 
-POST {{MembershipPortal.API_HostAddress}}/api/subscription/paginated?sortColumn=string&sortOrder=string&page=0&pageSize=0
+POST {{MembershipPortal.API_HostAddress}}/api/subscription/paginated?sortColumn=string&sortOrder=string&page=1&pageSize=5
 Content-Type: application/json
 
 {
-        "id": 0,
-        "subscriberId": 0,
-        "productId": 0,
-        "productName": "",
-        "productPrice": ,
-        "discountId": 0,
-        "discountCode": "",
-        "discountAmount": 0,
-        "startDate": "",
-        "expiryDate": "",
-        "priceAfterDiscount": 0,
-        "taxId": 0,
-        "cgst": 0,
-        "sgst": 0,
-        "totalTaxPercentage": 0,
-        "taxAmount": 0,
-        "finalAmount": 0
+   
+    "productName": "",
+    "productPrice": 0,
+    "discountCode": "",
+    "discountAmount": 0,
+    "priceAfterDiscount": 0,
+    "taxId": 3,
+    "cgst": 2.00,
+    "sgst": 2.00,
+    "totalTaxPercentage": 4.00,
+    "taxAmount": 52.00,
+    "finalAmount": 1352.00
 }
+
+###
+
+PUT {{MembershipPortal.API_HostAddress}}/api/subscription/1
+Content-Type: application/json
+
+{
+  //UpdateSubscriptionDTO
+}
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscription?sortColumn=string&sortOrder=string
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber/search?search=string
+
+###
+
+GET {{MembershipPortal.API_HostAddress}}/api/subscriber?sortColumn=string&sortOrder=string
 
 ###
