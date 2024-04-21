@@ -26,6 +26,7 @@ namespace MembershipPortal.Services
                 if (taxDTO == null) throw new ArgumentNullException(nameof(taxDTO));
                 var tax = new Tax()
                 {
+                    TaxName = taxDTO.TaxName,
                     SGST = taxDTO.SGST,
                     CGST = taxDTO.CGST,
                     TotalTax = taxDTO.CGST + taxDTO.SGST,
@@ -121,6 +122,7 @@ namespace MembershipPortal.Services
                 var oldTax = await _taxRepository.GetAsyncById(Id);
                 if (oldTax != null)
                 {
+                    oldTax.TaxName = taxDTO.TaxName;
                     oldTax.SGST = taxDTO.SGST;
                     oldTax.CGST = taxDTO.CGST;
                     oldTax.TotalTax = taxDTO.SGST + taxDTO.CGST;

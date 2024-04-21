@@ -35,7 +35,7 @@ namespace MembershipPortal.Services
                 var newDiscoutDTO = new GetDiscountDTO(result.Id, result.DiscountCode, result.DiscountAmount, result.IsDiscountInPercentage);
                 return newDiscoutDTO;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                // Console.WriteLine($"Error occurred in CreateDiscountAsync: {ex.Message}");
                 throw;

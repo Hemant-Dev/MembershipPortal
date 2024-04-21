@@ -27,6 +27,9 @@ namespace MembershipPortal.Repositories
                 bool isAscending = sortOrder.ToLower() == "asc";
                 switch (sortColumn.ToLower())
                 {
+                    case "taxname":
+                        query = isAscending ? query.OrderBy(s => s.TaxName) : query.OrderByDescending(s => s.TaxName);
+                        break;
                     case "cgst":
                         query = isAscending ? query.OrderBy(s => s.CGST) : query.OrderByDescending(s => s.CGST);
                         break;
