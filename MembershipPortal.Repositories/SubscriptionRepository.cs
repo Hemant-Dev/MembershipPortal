@@ -390,6 +390,10 @@ namespace MembershipPortal.Repositories
             {
                 query = query.Where(subscription => subscription.ProductPrice == subscriptionObj.ProductPrice);
             }
+            if (subscriptionObj.DiscountId > 0)
+            {
+                query = query.Where(s => s.DiscountId == subscriptionObj.DiscountId);
+            }
             if (!string.IsNullOrWhiteSpace(subscriptionObj.DiscountCode))
             {
                 query = query.Where(subscription => subscription.DiscountCode.Contains(subscriptionObj.DiscountCode));
