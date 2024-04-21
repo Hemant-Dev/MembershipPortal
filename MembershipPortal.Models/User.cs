@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection.Metadata.Ecma335;
 
@@ -19,9 +20,7 @@ namespace MembershipPortal.Models
         [Required(ErrorMessage = "LastName is Required")]
         public string LastName { get; set; } = string.Empty;
 
-
         [Required(ErrorMessage ="Email is Required")]
-
         [MaxLength(100)]
         public string Email { get; set; } = string.Empty;
 

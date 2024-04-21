@@ -31,10 +31,10 @@ namespace MembershipPortal.Services
                     TotalTax = taxDTO.CGST + taxDTO.SGST,
                 };
                 var result = await _taxRepository.CreateAsync(tax);
-                var newTaxDTO = new GetTaxDTO(result.Id, result.CGST, result.SGST, result.TotalTax);
+                var newTaxDTO = new GetTaxDTO(result.Id, result.TaxName, result.CGST, result.SGST, result.TotalTax);
                 return newTaxDTO;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                // Console.WriteLine($"Error occurred in CreateTaxAsync: {ex.Message}");
                 throw;
@@ -49,7 +49,7 @@ namespace MembershipPortal.Services
                 var tax = await _taxRepository.GetAsyncById(Id);
                 return await _taxRepository.DeleteAsync(tax);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
               //  Console.WriteLine($"Error occurred in DeleteTaxAsync: {ex.Message}");
                 throw;
@@ -64,7 +64,7 @@ namespace MembershipPortal.Services
                 if (sortedTaxesList != null)
                 {
                     var sortedTaxesDTOList = sortedTaxesList
-                        .Select(tax => new GetTaxDTO(tax.Id, tax.CGST, tax.SGST, tax.TotalTax)
+                        .Select(tax => new GetTaxDTO(tax.Id, tax.TaxName, tax.CGST, tax.SGST, tax.TotalTax)
                     ).ToList();
                     return sortedTaxesDTOList;
                 }
@@ -84,11 +84,11 @@ namespace MembershipPortal.Services
                 var tax = await _taxRepository.GetAsyncById(id);
                 if (tax != null)
                 {
-                    return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax);
+                    return new GetTaxDTO(tax.Id, tax.TaxName, tax.SGST, tax.CGST, tax.TotalTax);
                 }
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                // Console.WriteLine($"Error occurred in GetTaxByIdAsync: {ex.Message}");
                 throw;
@@ -102,12 +102,12 @@ namespace MembershipPortal.Services
                 var taxList = await _taxRepository.GetAsyncAll();
                 if (taxList != null)
                 {
-                    var taxDTOList = taxList.Select(tax => new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax));
+                    var taxDTOList = taxList.Select(tax => new GetTaxDTO(tax.Id, tax.TaxName, tax.SGST, tax.CGST, tax.TotalTax));
                     return taxDTOList;
                 }
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                // Console.WriteLine($"Error occurred in GetTaxesAsync: {ex.Message}");
                 throw;
@@ -125,11 +125,11 @@ namespace MembershipPortal.Services
                     oldTax.CGST = taxDTO.CGST;
                     oldTax.TotalTax = taxDTO.SGST + taxDTO.CGST;
                     var tax = await _taxRepository.UpdateAsync(oldTax);
-                    return new GetTaxDTO(tax.Id, tax.SGST, tax.CGST, tax.TotalTax);
+                    return new GetTaxDTO(tax.Id, tax.TaxName, tax.SGST, tax.CGST, tax.TotalTax);
                 }
                 return null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Console.WriteLine($"Error occurred in UpdateTaxAsync: {ex.Message}");
                 throw;

@@ -43,7 +43,7 @@ namespace MembershipPortal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Discounts");
+                    b.ToTable("Discounts", (string)null);
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.DiscountMode", b =>
@@ -59,7 +59,7 @@ namespace MembershipPortal.Data.Migrations
 
                     b.HasKey("DiscountModeId");
 
-                    b.ToTable("DiscountModes");
+                    b.ToTable("DiscountModes", (string)null);
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Gender", b =>
@@ -77,7 +77,7 @@ namespace MembershipPortal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genders");
+                    b.ToTable("Genders", (string)null);
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Product", b =>
@@ -98,7 +98,7 @@ namespace MembershipPortal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Subscriber", b =>
@@ -135,7 +135,7 @@ namespace MembershipPortal.Data.Migrations
 
                     b.HasIndex("GenderId");
 
-                    b.ToTable("Subscribers");
+                    b.ToTable("Subscribers", (string)null);
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Subscription", b =>
@@ -206,7 +206,7 @@ namespace MembershipPortal.Data.Migrations
 
                     b.HasIndex("TaxId");
 
-                    b.ToTable("Subscriptions");
+                    b.ToTable("Subscriptions", (string)null);
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Tax", b =>
@@ -228,7 +228,7 @@ namespace MembershipPortal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Taxes");
+                    b.ToTable("Taxes", (string)null);
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.User", b =>
@@ -265,7 +265,7 @@ namespace MembershipPortal.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("MembershipPortal.Models.Subscriber", b =>
