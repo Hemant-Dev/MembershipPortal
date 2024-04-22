@@ -18,7 +18,7 @@ namespace MembershipPortal.Repositories
             this._dbContext = dbContext;
         }
 
-        public async Task<(IEnumerable<Discount>, int)> GetAllPaginatedDiscountAsync(int page, int pageSize, Discount discountObj)
+        public async Task<(IEnumerable<Discount>, int)> GetAllPaginatedDiscountAsync(string? sortColumn, string? sortOrder, int page, int pageSize, Discount discountObj)
         {
             var query = _dbContext.Discounts.AsQueryable();
 
@@ -30,7 +30,26 @@ namespace MembershipPortal.Repositories
             {
                 query = query.Where(discount => discount.DiscountAmount == discountObj.DiscountAmount);
             }
-            
+
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                // Determine the sort order based on sortOrder parameter
+                bool isAscending = sortOrder.ToLower() == "asc";
+                switch (sortColumn.ToLower())
+                {
+                    case "discountcode":
+                        query= isAscending ? query.OrderBy(s => s.DiscountCode) : query.OrderByDescending(s => s.DiscountCode);
+                        break;
+                    case "discountamount":
+                        query= isAscending ? query.OrderBy(s => s.DiscountAmount) : query.OrderByDescending(s => s.DiscountAmount);
+                        break;
+                    default:
+                        query= query.OrderBy(s => s.Id);
+                        break;
+                }
+
+            }
+
 
             int totalCount = query.Count();
             int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));

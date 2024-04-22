@@ -153,7 +153,7 @@ namespace MembershipPortal.API.Controllers
         {
             try
             {
-                var paginatedDiscountDTOAndTotalPages = await _discountService.GetAllPaginatedDiscountAsync(page, pageSize, new Discount()
+                var paginatedDiscountDTOAndTotalPages = await _discountService.GetAllPaginatedDiscountAsync(sortColumn, sortOrder, page, pageSize, new Discount()
                 {
                     DiscountCode = discount.DiscountCode,
                     DiscountAmount = discount.DiscountAmount,
@@ -164,24 +164,7 @@ namespace MembershipPortal.API.Controllers
                     dataArray = paginatedDiscountDTOAndTotalPages.Item1,
                     totalPages = paginatedDiscountDTOAndTotalPages.Item2
                 };
-                if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
-                {
-                    // Determine the sort order based on sortOrder parameter
-                    bool isAscending = sortOrder.ToLower() == "asc";
-                    switch (sortColumn.ToLower())
-                    {
-                        case "discountcode":
-                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.DiscountCode) : result.dataArray.OrderByDescending(s => s.DiscountCode);
-                            break;
-                        case "discountamount":
-                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.DiscountAmount) : result.dataArray.OrderByDescending(s => s.DiscountAmount);
-                            break;
-                        default:
-                            result.dataArray = result.dataArray.OrderBy(s => s.Id);
-                            break;
-                    }
-
-                }
+                
                 return Ok(result);
             }
             catch (Exception)

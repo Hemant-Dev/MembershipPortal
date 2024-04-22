@@ -53,7 +53,7 @@ namespace MembershipPortal.Repositories
 
         }
 
-        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product productObj)
+        public async Task<(IEnumerable<Product>, int)> GetAllPaginatedProductAsync(string? sortColumn, string? sortOrder, int page, int pageSize, Product productObj)
         {
 
             var query = _dbContext.Products.AsQueryable();
@@ -68,6 +68,25 @@ namespace MembershipPortal.Repositories
             if (productObj.Price > 0)
             {
                 query = query.Where(product => product.Price == productObj.Price);
+            }
+
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                // Determine the sort order based on sortOrder parameter
+                bool isAscending = sortOrder.ToLower() == "asc";
+                switch (sortColumn.ToLower())
+                {
+                    case "productname":
+                        query= isAscending ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
+                        break;
+                    case "price":
+                        query= isAscending ? query.OrderBy(s => s.Price) : query.OrderByDescending(s => s.Price);
+                        break;
+                    default:
+                        query= query.OrderBy(s => s.Id);
+                        break;
+                }
+
             }
 
             int totalCount = query.Count();

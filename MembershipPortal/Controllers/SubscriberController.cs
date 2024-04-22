@@ -185,7 +185,7 @@ namespace MembershipPortal.API.Controllers
         {
             try
             {
-                var paginatedSubscriberDTOAndTotalPages = await _subscriberService.GetAllPaginatedSubscriberAsync(page, pageSize, new Subscriber()
+                var paginatedSubscriberDTOAndTotalPages = await _subscriberService.GetAllPaginatedSubscriberAsync(sortColumn, sortOrder, page, pageSize, new Subscriber()
                 {
                     FirstName = subscriber.FirstName,
                     LastName = subscriber.LastName,
@@ -198,33 +198,6 @@ namespace MembershipPortal.API.Controllers
                     dataArray = paginatedSubscriberDTOAndTotalPages.Item1,
                     totalPages = paginatedSubscriberDTOAndTotalPages.Item2
                 };
-                if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
-                {
-                    // Determine the sort order based on sortOrder parameter
-                    bool isAscending = sortOrder.ToLower() == "asc";
-                    switch (sortColumn.ToLower())
-                    {
-                        case "firstname":
-                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.FirstName) : result.dataArray.OrderByDescending(s => s.FirstName);
-                            break;
-                        case "lastname":
-                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.LastName) : result.dataArray.OrderByDescending(s => s.LastName);
-                            break;
-                        case "email":
-                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.Email) : result.dataArray.OrderByDescending(s => s.Email);
-                            break;
-                        case "contactnumber":
-                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.ContactNumber) : result.dataArray.OrderByDescending(s => s.ContactNumber);
-                            break;
-                        case "gendername":
-                            result.dataArray = isAscending ? result.dataArray.OrderBy(s => s.GenderName) : result.dataArray.OrderByDescending(s => s.GenderName);
-                            break;
-                        default:
-                            result.dataArray = result.dataArray.OrderBy(s => s.Id);
-                            break;
-                    }
-
-                }
                 return Ok(result);
             }
             catch (Exception)

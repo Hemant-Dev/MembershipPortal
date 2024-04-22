@@ -19,6 +19,6 @@ namespace MembershipPortal.IServices
         Task<bool> DeleteDiscountAsync(long Id);
 
         Task<IEnumerable<GetDiscountDTO>> GetAllSortedDiscounts(string? sortColumn, string? sortOrder);
-        public Task<(IEnumerable<GetDiscountDTO>, int)> GetAllPaginatedDiscountAsync(int page, int pageSize, Discount discount);
+        public Task<(IEnumerable<GetDiscountDTO>, int)> GetAllPaginatedDiscountAsync(string? sortColumn, string? sortOrder, int page, int pageSize, Discount discount);
     }
 }

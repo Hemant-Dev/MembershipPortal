@@ -25,7 +25,7 @@ namespace MembershipPortal.IServices
 
         public Task<IEnumerable<GetProductDTO>> GetProductAdvanceSearchAsync(GetProductDTO getProductDTO);
 
-        public Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedProductAsync(int page, int pageSize, Product product);
+        public Task<(IEnumerable<GetProductDTO>, int)> GetAllPaginatedProductAsync(string? sortColumn, string? sortOrder, int page, int pageSize, Product product);
 
         public Task<IEnumerable<GetProductDTO>> GetAllSortedProducts(string? sortColumn, string? sortOrder);
     }

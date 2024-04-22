@@ -57,9 +57,9 @@ namespace MembershipPortal.Services
             }
         }
 
-        public async Task<(IEnumerable<GetDiscountDTO>, int)> GetAllPaginatedDiscountAsync(int page, int pageSize, Discount discount)
+        public async Task<(IEnumerable<GetDiscountDTO>, int)> GetAllPaginatedDiscountAsync(string? sortColumn, string? sortOrder, int page, int pageSize, Discount discount)
         {
-            var discountListAndTotalPages = await _discountRepository.GetAllPaginatedDiscountAsync(page, pageSize, discount);
+            var discountListAndTotalPages = await _discountRepository.GetAllPaginatedDiscountAsync(sortColumn, sortOrder, page, pageSize, discount);
             var userDTOList = discountListAndTotalPages.Item1.Select(discount =>
 
                     new GetDiscountDTO(

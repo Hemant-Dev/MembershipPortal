@@ -24,6 +24,6 @@ namespace MembershipPortal.IServices
         Task<IEnumerable<GetSubscriberDTO>> SearchAsyncAll(string search);
 
         Task<IEnumerable<GetSubscriberDTO>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder);
-        Task<(IEnumerable<GetSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber);
+        Task<(IEnumerable<GetSubscriberDTO>, int)> GetAllPaginatedSubscriberAsync(string? sortColumn, string? sortOrder, int page, int pageSize, Subscriber subscriber);
     }
 }

@@ -25,6 +25,6 @@ namespace MembershipPortal.IServices
         public Task<IEnumerable<GetUserDTO>> GetUserAdvanceSearchAsync(GetUserDTO getUserDTO);
         public Task<IEnumerable<GetUserDTO>> GetAllSortedUsers(string? sortColumn, string? sortOrder);
 
-        public Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User user);
+        public Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedUserAsync(string? sortColumn, string? sordOrder, int page, int pageSize, User user);
     }
 }

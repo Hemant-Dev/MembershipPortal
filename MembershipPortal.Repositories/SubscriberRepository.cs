@@ -19,7 +19,7 @@ namespace MembershipPortal.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriberObj)
+        public async Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedSubscriberAsync(string? sortColumn, string? sortOrder, int page, int pageSize, Subscriber subscriberObj)
         {
             var query = _dbContext.Subscribers.Include(g => g.Gender).AsQueryable();
 
@@ -42,6 +42,33 @@ namespace MembershipPortal.Repositories
             if (subscriberObj.GenderId > 0)
             {
                 query = query.Where(subscriber => subscriber.GenderId == subscriberObj.GenderId);
+            }
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                // Determine the sort order based on sortOrder parameter
+                bool isAscending = sortOrder.ToLower() == "asc";
+                switch (sortColumn.ToLower())
+                {
+                    case "firstname":
+                        query= isAscending ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
+                        break;
+                    case "lastname":
+                        query= isAscending ? query.OrderBy(s => s.LastName) : query.OrderByDescending(s => s.LastName);
+                        break;
+                    case "email":
+                        query= isAscending ? query.OrderBy(s => s.Email) : query.OrderByDescending(s => s.Email);
+                        break;
+                    case "contactnumber":
+                        query= isAscending ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
+                        break;
+                    case "gendername":
+                        query= isAscending ? query.OrderBy(s => s.Gender.GenderName) : query.OrderByDescending(s => s.Gender.GenderName);
+                        break;
+                    default:
+                        query= query.OrderBy(s => s.Id);
+                        break;
+                }
+
             }
 
             int totalCount = query.Count();

@@ -1,6 +1,7 @@
 ﻿using MembershipPortal.Data;
 using MembershipPortal.IRepositories;
 using MembershipPortal.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ namespace MembershipPortal.Repositories
        
         }
 
-        public async Task<(IEnumerable<User>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User userObj)
+        public async Task<(IEnumerable<User>, int)> GetAllPaginatedUserAsync(string? sortColumn, string? sordOrder, int page, int pageSize, User userObj)
         {
             var query = _dbContext.Users.AsQueryable();
 
@@ -115,6 +116,34 @@ namespace MembershipPortal.Repositories
             if (!string.IsNullOrWhiteSpace(userObj.Email))
             {
                 query = query.Where(user => user.Email.Contains(userObj.Email));
+            }
+
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sordOrder))
+            {
+                // Determine the sort order based on sortOrder parameter
+                bool isAscending = sordOrder.ToLower() == "asc";
+                switch (sortColumn.ToLower())
+                {
+                    case "firstname":
+                        query= isAscending ? query.OrderBy(s => s.FirstName) : query.OrderByDescending(s => s.FirstName);
+                        break;
+                    case "lastname":
+                        query= isAscending ? query.OrderBy(s => s.LastName) : query.OrderByDescending(s => s.LastName);
+                        break;
+                    case "email":
+                        query= isAscending ? query.OrderBy(s => s.Email) : query.OrderByDescending(s => s.Email);
+                        break;
+                    case "password":
+                        query= isAscending ? query.OrderBy(s => s.Password) : query.OrderByDescending(s => s.Password);
+                        break;
+                    case "contactnumber":
+                        query= isAscending ? query.OrderBy(s => s.ContactNumber) : query.OrderByDescending(s => s.ContactNumber);
+                        break;
+                    default:
+                        query= query.OrderBy(s => s.Id);
+                        break;
+                }
+
             }
 
             int totalCount = query.Count();

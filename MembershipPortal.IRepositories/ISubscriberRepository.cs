@@ -14,6 +14,6 @@ namespace MembershipPortal.IRepositories
         Task<Subscriber> UpdateSubsciberDataAsync(long id, Subscriber subscriber);
         Task<Subscriber> GetSubscriberByIdAsync(long id);
         Task<IEnumerable<Subscriber>> GetAllSortedSubscribers(string? sortColumn, string? sortOrder);
-        Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedSubscriberAsync(int page, int pageSize, Subscriber subscriber);
+        Task<(IEnumerable<Subscriber>, int)> GetAllPaginatedSubscriberAsync(string? sortColumn, string? sortOrder, int page, int pageSize, Subscriber subscriber);
     }
 }

@@ -238,9 +238,9 @@ namespace MembershipPortal.Services
             }
         }
 
-        public async Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedUserAsync(int page, int pageSize, User user)
+        public async Task<(IEnumerable<GetUserDTO>, int)> GetAllPaginatedUserAsync(string? sortColumn, string? sordOrder, int page, int pageSize, User user)
         {
-            var userListAndTotalPages = await userRepository.GetAllPaginatedUserAsync(page, pageSize, user);
+            var userListAndTotalPages = await userRepository.GetAllPaginatedUserAsync(sortColumn, sordOrder, page, pageSize, user);
             var userDTOList = userListAndTotalPages.Item1.Select(user =>
 
                     new GetUserDTO(
