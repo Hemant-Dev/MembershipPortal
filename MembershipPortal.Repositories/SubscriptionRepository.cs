@@ -370,13 +370,19 @@ namespace MembershipPortal.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<(IEnumerable<Subscription>, int)> GetAllPaginatedSubscriptionsAsync(int page, int pageSize, Subscription subscriptionObj)
+        public async Task<(IEnumerable<Subscription>, int)> GetAllPaginatedSubscriptionsAsync(string? sortColumn, string? sortOrder, int page, int pageSize, Subscription subscriptionObj)
         {
-            var query = _dbContext.Subscriptions.AsQueryable();
+            var query = _dbContext.Subscriptions
+                        .Include(s=>s.Subscriber)
+                        .AsQueryable();
 
             if(subscriptionObj.SubscriberId > 0)
             {
-                query = query.Where(s => s.SubscriberId == subscriptionObj.SubscriberId);
+                query = query.Where(s => s.Subscriber.FirstName.Contains(subscriptionObj.Subscriber.FirstName));
+            }
+            if(subscriptionObj.SubscriberId > 0)
+            {
+                query = query.Where(s => s.Subscriber.LastName.Contains(subscriptionObj.Subscriber.LastName));
             }
             if(subscriptionObj.ProductId > 0)
             {
@@ -434,6 +440,58 @@ namespace MembershipPortal.Repositories
             {
                 query = query.Where(subscription => subscription.ExpiryDate == subscriptionObj.ExpiryDate);
             }
+
+            if (!string.IsNullOrWhiteSpace(sortColumn) && !string.IsNullOrWhiteSpace(sortOrder))
+            {
+                // Determine the sort order based on sortOrder parameter
+                bool isAscending = sortOrder.ToLower() == "asc";
+                switch (sortColumn.ToLower())
+                {
+                    case "subscribername":
+                        query= isAscending ? query.OrderBy(s => s.Subscriber.FirstName + s.Subscriber.LastName) : query.OrderByDescending(s => s.Subscriber.FirstName + s.Subscriber.LastName); 
+                        break;
+                    case "productname":
+                        query= isAscending ? query.OrderBy(s => s.ProductName) : query.OrderByDescending(s => s.ProductName);
+                        break;
+                    case "productprice":
+                        query= isAscending ? query.OrderBy(s => s.ProductPrice) : query.OrderByDescending(s => s.ProductPrice);
+                        break;
+                    case "discountcode":
+                        query= isAscending ? query.OrderBy(s => s.DiscountCode) : query.OrderByDescending(s => s.DiscountCode);
+                        break;
+                    case "discountamount":
+                        query= isAscending ? query.OrderBy(s => s.DiscountAmount) : query.OrderByDescending(s => s.DiscountAmount);
+                        break;
+                    case "priceafterdiscount":
+                        query= isAscending ? query.OrderBy(s => s.PriceAfterDiscount) : query.OrderByDescending(s => s.PriceAfterDiscount);
+                        break;
+                    case "cgst":
+                        query= isAscending ? query.OrderBy(s => s.CGST) : query.OrderByDescending(s => s.CGST);
+                        break;
+                    case "sgst":
+                        query= isAscending ? query.OrderBy(s => s.SGST) : query.OrderByDescending(s => s.SGST);
+                        break;
+                    case "totaltaxpercentage":
+                        query= isAscending ? query.OrderBy(s => s.TotalTaxPercentage) : query.OrderByDescending(s => s.TotalTaxPercentage);
+                        break;
+                    case "taxamount":
+                        query= isAscending ? query.OrderBy(s => s.TaxAmount) : query.OrderByDescending(s => s.TaxAmount);
+                        break;
+                    case "finalamount":
+                        query= isAscending ? query.OrderBy(s => s.FinalAmount) : query.OrderByDescending(s => s.FinalAmount);
+                        break;
+                    case "startdate":
+                        query = isAscending ? query.OrderBy(s => s.StartDate) : query.OrderByDescending(s => s.StartDate);
+                        break;
+                    case "expirydate":
+                        query = isAscending ? query.OrderBy(s => s.ExpiryDate) : query.OrderByDescending(s => s.ExpiryDate);
+                        break;
+                    default:
+                        query= query.OrderBy(s => s.Id);
+                        break;
+                }
+            }
+
             int totalCount = query.Count();
             int totalPages = (int)(Math.Ceiling((decimal)totalCount / pageSize));
 
